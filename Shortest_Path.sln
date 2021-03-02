@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shortest_Path", "Shortest_P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShortestPath.UnitTests", "ShortestPath.UnitTests\ShortestPath.UnitTests.csproj", "{CE90494C-F70E-4A44-8410-2840C33AD3D8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShortestPath.IntegrationTest", "ShortestPath.IntegrationTest\ShortestPath.IntegrationTest.csproj", "{1A7D67DB-30A6-46BE-851A-23935C4564D4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{CE90494C-F70E-4A44-8410-2840C33AD3D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE90494C-F70E-4A44-8410-2840C33AD3D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE90494C-F70E-4A44-8410-2840C33AD3D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A7D67DB-30A6-46BE-851A-23935C4564D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A7D67DB-30A6-46BE-851A-23935C4564D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A7D67DB-30A6-46BE-851A-23935C4564D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A7D67DB-30A6-46BE-851A-23935C4564D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
