@@ -12,7 +12,9 @@ namespace ShortestPath.UnitTests
             IStationDataReader reader = new TestStationDataReader();
             var rawRecords = reader.GetRawStaionRecords();
 
-            var stationRecords = new StationRecords(rawRecords);
+
+
+            var stationRecords = new StationRecords(new RawStationToStationConvertor().Convert(rawRecords));
             var map = stationRecords.GetMap();
 
             var start = new Station { StationName = "SengKang" };

@@ -4,12 +4,13 @@ namespace ShortestPath.UnitTests
 {
     public class StationRecords
     {
-        public StationRecords(List<RawStationData> rawRecords)
+        public StationRecords(List<Station> stations)
         {
-            throw new System.NotImplementedException();
+            StationRecordList = stations;
+            
         }
 
-        public List<RawStationData> StationRecordList { get; set; }
+        private List<Station> StationRecordList { get; set; }
 
         public List<Station> GetStations()
         {
