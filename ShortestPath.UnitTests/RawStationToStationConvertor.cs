@@ -9,7 +9,15 @@ namespace ShortestPath.UnitTests
     {
         public List<Station> Convert(List<RawStationData> rawRecords)
         {
-            return new List<Station>();
+            var stations = new List<Station>();
+            foreach (var rawStationData in rawRecords)
+            {
+                var station = new Station(rawStationData.StationName);
+                station.AddStationCode(rawStationData.StationCode);
+                stations.Add(station);
+            }
+
+            return stations;
         }
     }
 
@@ -34,8 +42,11 @@ namespace ShortestPath.UnitTests
         [Test]
         public void Returns_Correct_Station_When_One_Raw_Data_Is_Passed()
         {
+            //Arrange
             var stationName = "Sengkang";
             var stationCode = "NE1";
+
+            //Act
             var stations = _rawStationToStationConvertor.Convert(new List<RawStationData>
             {
                 new RawStationData
@@ -44,12 +55,16 @@ namespace ShortestPath.UnitTests
                 }
             });
 
-            var stationCodes = new List<string> { "NE1" };
-            var lines = new List<string> { "NE" };
+            //Assert
             Assert.AreEqual(1, stations.Count);
+
             var station = stations.First();
             Assert.AreEqual(stationName, station.StationName);
+            
+            var stationCodes = new List<string> { "NE1" };
             stationCodes.ToExpectedObject().ShouldMatch(station.StationCodes);
+            
+            var lines = new List<string> { "NE" };
             lines.ToExpectedObject().ShouldMatch(station.Lines);
         }
     }
