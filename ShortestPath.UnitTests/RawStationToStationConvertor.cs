@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using ExpectedObjects;
 using NUnit.Framework;
 
@@ -43,14 +44,13 @@ namespace ShortestPath.UnitTests
                 }
             });
 
-            var expected = new Station
-            {
-                StationName = stationName,
-                StationCodes = new List<string> { "NE1" },
-                Lines = new List<string> { "NE" }
-            };
-
-            expected.ToExpectedObject().ShouldMatch(stations);
+            var stationCodes = new List<string> { "NE1" };
+            var lines = new List<string> { "NE" };
+            Assert.AreEqual(1, stations.Count);
+            var station = stations.First();
+            Assert.AreEqual(stationName, station.StationName);
+            stationCodes.ToExpectedObject().ShouldMatch(station.StationCodes);
+            lines.ToExpectedObject().ShouldMatch(station.Lines);
         }
     }
 }

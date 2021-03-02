@@ -17,8 +17,8 @@ namespace ShortestPath.UnitTests
             var stationRecords = new StationRecords(new RawStationToStationConvertor().Convert(rawRecords));
             var map = stationRecords.GetMap();
 
-            var start = new Station { StationName = "SengKang" };
-            var end = new Station { StationName = "Bishan" };
+            var start = new Station("SengKang");
+            var end = new Station("Bishan");
             var route = map.GetRouteFor(start, end);
 
             Direction direction = new Direction(route);
