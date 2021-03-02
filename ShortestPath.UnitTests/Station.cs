@@ -19,6 +19,8 @@ namespace ShortestPath.UnitTests
 
         public void AddStationCode(string stationCode)
         {
+            if(string.IsNullOrEmpty(stationCode)) return;
+
             var lineName = stationCode.Substring(0, 2);
             if (!Lines.Contains(lineName))
                 Lines.Add(lineName);
@@ -38,7 +40,15 @@ namespace ShortestPath.UnitTests
         }
 
         [Test]
-        public void Add_StationCode_NE1_Should_Add__NE_To_Lines()
+        public void Add_Empty_StationCode_ShouldNotHaveAnyImpact()
+        {
+            var station = new Station("Sengkang");
+            station.AddStationCode(null);
+            Assert.IsEmpty(station.StationCodes);
+        }
+
+        [Test]
+        public void Add_StationCode_NE1_Should_Add_NE_To_Lines()
         {
             var station = new Station("Sengkang");
             station.AddStationCode("NE1");
@@ -47,7 +57,7 @@ namespace ShortestPath.UnitTests
         }
 
         [Test]
-        public void Add_StationCode_NE1_Twice_Should_NOT_Add__NE_To_Lines()
+        public void Add_StationCode_NE1_Twice_Should_NOT_Add_NE_To_Lines()
         {
             var station = new Station("Sengkang");
             station.AddStationCode("NE1");
@@ -57,22 +67,42 @@ namespace ShortestPath.UnitTests
         }
 
         [Test]
-        public void Add_StationCode_NE1_Should_Add__NE1_To_StationCodes()
+        public void Add_StationCode_NE1_Should_Add_NE1_To_StationCodes()
         {
             var station = new Station("Sengkang");
             station.AddStationCode("NE1");
-            var lines = new List<string> { "NE" };
+            var stationCodes = new List<string> { "NE1" };
+            stationCodes.ToExpectedObject().ShouldMatch(station.StationCodes);
+        }
+
+        [Test]
+        public void Add_StationCode_NE1_Twice_Should_NOT_Add_NE1_To_StationCodes()
+        {
+            var station = new Station("Sengkang");
+            station.AddStationCode("NE1");
+            station.AddStationCode("NE1");
+            var stationCodes = new List<string> { "NE1" };
+            stationCodes.ToExpectedObject().ShouldMatch(station.StationCodes);
+        }
+
+        [Test]
+        public void Add_StationCode_NE1_And_CC1_Should_Add_NE_And_CC_To_Lines()
+        {
+            var station = new Station("Sengkang");
+            station.AddStationCode("NE1");
+            station.AddStationCode("CC1");
+            var lines = new List<string> { "NE", "CC" };
             lines.ToExpectedObject().ShouldMatch(station.Lines);
         }
 
         [Test]
-        public void Add_StationCode_NE1_Twice_Should_NOT_Add__NE1_To_StationCodes()
+        public void Add_StationCode_NE1_And_CC1_Should_Add_NE1_And_CC1_To_StationCodes()
         {
             var station = new Station("Sengkang");
             station.AddStationCode("NE1");
-            station.AddStationCode("NE1");
-            var lines = new List<string> { "NE" };
-            lines.ToExpectedObject().ShouldMatch(station.Lines);
+            station.AddStationCode("CC1");
+            var stationCodes = new List<string> { "NE1", "CC1" };
+            stationCodes.ToExpectedObject().ShouldMatch(station.StationCodes);
         }
     }
 }
