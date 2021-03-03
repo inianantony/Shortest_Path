@@ -23,7 +23,8 @@ namespace ShortestPath.UnitTests
             var end = new Station("Bishan");
 
             Direction direction = new Direction(start, end);
-            var route = direction.PrepareRouteFrom(map);
+            var routeInfo = direction.PrepareRouteInfoFrom(map);
+
             IPrinter printer = new ConsolePrinter(direction);
             printer.PrintJourneyTitle();
             printer.PrintStations();

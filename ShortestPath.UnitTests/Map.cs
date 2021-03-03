@@ -56,8 +56,6 @@ namespace ShortestPath.UnitTests
             var map = new Map().LinkStations(stations, neLine);
 
             //Assert
-
-
             var actualConnections = map.Stations.Select(a => a.Connections).ToList();
             expectedConnection.ToExpectedObject().ShouldMatch(actualConnections);
         }

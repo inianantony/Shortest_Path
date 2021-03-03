@@ -12,12 +12,16 @@ namespace ShortestPath.UnitTests
             StationName = stationName;
             Lines = new List<string>();
             StationCodes = new List<string>();
+            Connections = new List<Edge>();
         }
 
         public string StationName { get; set; }
         public List<string> Lines { get; }
         public List<string> StationCodes { get; }
-        public List<Edge> Connections { get; set; }
+        public List<Edge> Connections { get; private set; }
+        public Station NearestToStart { get; set; }
+        public double? MinCostToStart { get; set; }
+        public bool Visited { get; set; }
 
         public Station AddStationCode(string stationCode)
         {
@@ -105,6 +109,11 @@ namespace ShortestPath.UnitTests
         public int GetHashCode(Station obj)
         {
             return (obj.StationName != null ? obj.StationName.GetHashCode() : 0);
+        }
+
+        public override string ToString()
+        {
+            return StationName;
         }
     }
 
