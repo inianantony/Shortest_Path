@@ -1,4 +1,4 @@
-namespace ShortestPath.UnitTests
+namespace Shortest_Path
 {
     public class Edge
     {

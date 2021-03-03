@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Shortest_Path": {
+      "commandName": "Project",
+      "commandLineArgs": "--start=Kovan --end=Ubi"
+    }
+  }
+}

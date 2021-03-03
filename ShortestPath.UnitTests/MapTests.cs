@@ -2,26 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using ExpectedObjects;
 using NUnit.Framework;
+using Shortest_Path;
 
 namespace ShortestPath.UnitTests
 {
-    public class Map
-    {
-        public List<Station> Stations { get; private set; }
-
-        public Map()
-        {
-            Stations = new List<Station>();
-        }
-
-        public Map LinkStations(List<Station> stations, Dictionary<string, List<Station>> mrtLines)
-        {
-            stations.ForEach(a => a.ConnectNearByStations(stations, mrtLines));
-            Stations = stations;
-            return this;
-        }
-    }
-
     [TestFixture]
     public class MapTests
     {

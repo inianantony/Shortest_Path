@@ -1,16 +1,8 @@
 using NUnit.Framework;
+using Shortest_Path;
 
 namespace ShortestPath.UnitTests
 {
-    public class RawStationData
-    {
-        public string StationCode { get; set; }
-        public string StationName { get; set; }
-        public object OpeningDate { get; set; }
-
-        public string Line => StationCode.Substring(0, 2);
-    }
-
     public class RawStationDataTest
     {
         [Test]

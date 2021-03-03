@@ -5,10 +5,10 @@ using Shortest_Path;
 namespace ShortestPath.UnitTests
 {
     [TestFixture]
-    public class CoverageTest
+    public class EndToEndTest
     {
         [Test]
-        public void FullCoverageTest()
+        public void GetRoute_End_To_End_Test()
         {
             IStationDataReader reader = new TestStationDataReader();
             var rawRecords = reader.GetRawStaionRecords();

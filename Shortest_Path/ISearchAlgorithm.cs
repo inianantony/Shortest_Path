@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace ShortestPath.UnitTests
+namespace Shortest_Path
 {
     public interface ISearchAlgorithm
     {
