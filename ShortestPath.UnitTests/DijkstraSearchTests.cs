@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using FluentAssertions;
 using NUnit.Framework;
 using Shortest_Path;
+using Shortest_Path.Models;
 
 namespace ShortestPath.UnitTests
 {

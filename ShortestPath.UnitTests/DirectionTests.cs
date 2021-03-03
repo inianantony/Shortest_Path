@@ -3,6 +3,7 @@ using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using Shortest_Path;
+using Shortest_Path.Models;
 
 namespace ShortestPath.UnitTests
 {

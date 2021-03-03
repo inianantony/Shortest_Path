@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Shortest_Path
+namespace Shortest_Path.Models
 {
     public class Station : IEqualityComparer<Station>, IComparable<Station>
     {
