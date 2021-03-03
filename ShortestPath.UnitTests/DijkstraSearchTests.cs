@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using FluentAssertions;
 using NUnit.Framework;
 
 namespace ShortestPath.UnitTests
@@ -34,8 +35,19 @@ namespace ShortestPath.UnitTests
             };
             var dijkstraSearch = new DijkstraSearch();
             var path = dijkstraSearch.FillShortestPath(_stations, _sengkangStation, _kovanStation);
-            Assert.AreEqual(_sengkangStation, _kovanStation.NearestToStart);
-            Assert.AreEqual(null, _sengkangStation.NearestToStart);
+
+            var expected = new List<Station>
+            {
+                new Station("Kovan") {NearestToStart = _sengkangStation, MinimumCost = 1},
+                new Station("Sengkang") {NearestToStart = null, MinimumCost = 0},
+            };
+
+            path.Should().NotBeEmpty()
+                .And.HaveCount(2)
+                .And.BeEquivalentTo(expected, options => options
+                    .Including(o => o.StationName)
+                    .Including(o => o.MinimumCost)
+                    .Including(a => a.NearestToStart));
         }
 
         [Test]
@@ -49,13 +61,25 @@ namespace ShortestPath.UnitTests
             _stations = new List<Station>
             {
                 _sengkangStation,
-                _kovanStation
+                _kovanStation,
+                _HarborStation
             };
             var dijkstraSearch = new DijkstraSearch();
             var path = dijkstraSearch.FillShortestPath(_stations, _sengkangStation, _HarborStation);
-            Assert.AreEqual(_kovanStation, _HarborStation.NearestToStart);
-            Assert.AreEqual(_sengkangStation, _kovanStation.NearestToStart);
-            Assert.AreEqual(null, _sengkangStation.NearestToStart);
+
+            var expected = new List<Station>
+            {
+                new Station("Harbor") {NearestToStart = _kovanStation, MinimumCost = 2},
+                new Station("Kovan") {NearestToStart = _sengkangStation, MinimumCost = 1},
+                new Station("Sengkang") {NearestToStart = null, MinimumCost = 0},
+            };
+
+            path.Should().NotBeEmpty()
+                .And.HaveCount(3)
+                .And.BeEquivalentTo(expected, options => options
+                    .Including(o => o.StationName)
+                    .Including(o => o.MinimumCost)
+                    .Including(a => a.NearestToStart));
         }
 
         [Test]
@@ -74,13 +98,27 @@ namespace ShortestPath.UnitTests
             _stations = new List<Station>
             {
                 _sengkangStation,
-                _kovanStation
+                _kovanStation,
+                _BishanStation,
+                _HarborStation
             };
             var dijkstraSearch = new DijkstraSearch();
             var path = dijkstraSearch.FillShortestPath(_stations, _sengkangStation, _HarborStation);
-            Assert.AreEqual(_BishanStation, _HarborStation.NearestToStart);
-            Assert.AreEqual(_sengkangStation, _BishanStation.NearestToStart);
-            Assert.AreEqual(null, _sengkangStation.NearestToStart);
+
+            var expected = new List<Station>
+            {
+                new Station("Harbor") {NearestToStart = _BishanStation, MinimumCost = 2},
+                new Station("Bishan") {NearestToStart = _sengkangStation, MinimumCost = 1},
+                new Station("Kovan") {NearestToStart = _sengkangStation, MinimumCost = 1},
+                new Station("Sengkang") {NearestToStart = null, MinimumCost = 0},
+            };
+
+            path.Should().NotBeEmpty()
+                .And.HaveCount(4)
+                .And.BeEquivalentTo(expected, options => options
+                    .Including(o => o.StationName)
+                    .Including(o => o.MinimumCost)
+                    .Including(a => a.NearestToStart));
         }
 
         [Test]
@@ -99,13 +137,27 @@ namespace ShortestPath.UnitTests
             _stations = new List<Station>
             {
                 _sengkangStation,
-                _kovanStation
+                _kovanStation,
+                _BishanStation,
+                _HarborStation
             };
             var dijkstraSearch = new DijkstraSearch();
             var path = dijkstraSearch.FillShortestPath(_stations, _sengkangStation, _HarborStation);
-            Assert.AreEqual(_kovanStation, _HarborStation.NearestToStart);
-            Assert.AreEqual(_sengkangStation, _kovanStation.NearestToStart);
-            Assert.AreEqual(null, _sengkangStation.NearestToStart);
+
+            var expected = new List<Station>
+            {
+                new Station("Harbor") {NearestToStart = _kovanStation, MinimumCost = 1.5},
+                new Station("Kovan") {NearestToStart = _sengkangStation, MinimumCost = 1},
+                new Station("Bishan") {NearestToStart = _sengkangStation, MinimumCost = 1},
+                new Station("Sengkang") {NearestToStart = null, MinimumCost = 0},
+            };
+
+            path.Should().NotBeEmpty()
+                .And.HaveCount(4)
+                .And.BeEquivalentTo(expected, options => options
+                    .Including(o => o.StationName)
+                    .Including(o => o.MinimumCost)
+                    .Including(a => a.NearestToStart));
         }
     }
 }

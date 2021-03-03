@@ -1,26 +1,29 @@
 using System.Collections.Generic;
 using System.Linq;
+using Moq;
 using NUnit.Framework;
 
 namespace ShortestPath.UnitTests
 {
     public class Direction
     {
+        private readonly ISearchAlgorithm _searchAlgorithm;
         private readonly Station _start;
         private readonly Station _end;
         public double ShortestPathCost { get; set; }
 
         public double ShortestPathLength { get; set; }
 
-        public Direction(Station start, Station end)
+        public Direction(ISearchAlgorithm searchAlgorithm, Station start, Station end)
         {
+            _searchAlgorithm = searchAlgorithm;
             _start = start;
             _end = end;
         }
 
         public RouteInfo PrepareRouteInfoFrom(Map map)
         {
-            var mappedStations = new DijkstraSearch().FillShortestPath(map.Stations, _start, _end);
+            var mappedStations = _searchAlgorithm.FillShortestPath(map.Stations, _start, _end);
 
             var shortestPath = new List<Station>();
             var end = mappedStations.First(a => a == _end);
@@ -42,6 +45,11 @@ namespace ShortestPath.UnitTests
 
             BuildShortestPath(stations, station.NearestToStart);
         }
+    }
+
+    public interface ISearchAlgorithm
+    {
+        List<Station> FillShortestPath(List<Station> stations, Station start, Station end);
     }
 
     public class RouteInfo
@@ -66,6 +74,9 @@ namespace ShortestPath.UnitTests
         private Station _BishanStation;
         private List<Station> _stations;
 
+        private Mock<ISearchAlgorithm> _algorithm;
+
+
         [SetUp]
         public void Init()
         {
@@ -82,40 +93,65 @@ namespace ShortestPath.UnitTests
                 _HarborStation,
                 _BishanStation
             };
+            _algorithm = new Mock<ISearchAlgorithm>();
         }
 
         [Test]
         public void PrepareRouteInfo_ShouldReturn_SingleStation_In_Plan_For_SameStations_As_StartAndEnd()
         {
-            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
-            _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1, Length = 1 });
+            _kovanStation.NearestToStart = _sengkangStation;
 
-            Direction direction = new Direction(_sengkangStation, _sengkangStation);
-            var mrtLines = new Dictionary<string, List<Station>>
+            _algorithm.Setup(a => a.FillShortestPath(It.IsAny<List<Station>>(), It.IsAny<Station>(), It.IsAny<Station>())).Returns(new List<Station>
             {
-                {"NE", new List<Station> { _sengkangStation, _kovanStation}},
-            };
-            Map map = new Map().LinkStations(_stations, mrtLines);
-            var routeInfo = direction.PrepareRouteInfoFrom(map);
+                _kovanStation,
+                _sengkangStation
+            });
 
-            Assert.AreEqual(1, routeInfo.Journey.Count);
+            var direction = new Direction(_algorithm.Object, _sengkangStation, _sengkangStation);
+            var routeInfo = direction.PrepareRouteInfoFrom(new Map());
+
+            Assert.IsTrue(routeInfo.Journey.Contains(_sengkangStation.StationName));
         }
 
         [Test]
         public void PrepareRouteInfo_ShouldReturn_RoutePlan_For_TwoStations()
         {
-            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
-            _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1, Length = 1 });
+            _kovanStation.NearestToStart = _sengkangStation;
 
-            Direction direction = new Direction(_sengkangStation, _kovanStation);
-            var mrtLines = new Dictionary<string, List<Station>>
+            _algorithm.Setup(a => a.FillShortestPath(It.IsAny<List<Station>>(), It.IsAny<Station>(), It.IsAny<Station>())).Returns(new List<Station>
             {
-                {"NE", new List<Station> { _sengkangStation, _kovanStation}},
-            };
-            Map map = new Map().LinkStations(_stations, mrtLines);
-            var routeInfo = direction.PrepareRouteInfoFrom(map);
+                _kovanStation,
+                _sengkangStation
+            });
 
-            Assert.AreEqual(2, routeInfo.Journey.Count);
+            var direction = new Direction(_algorithm.Object, _sengkangStation, _kovanStation);
+            var routeInfo = direction.PrepareRouteInfoFrom(new Map());
+
+            Assert.IsTrue(routeInfo.Journey.Contains(_sengkangStation.StationName), _sengkangStation.StationName);
+            Assert.IsTrue(routeInfo.Journey.Contains(_kovanStation.StationName), _kovanStation.StationName);
+        }
+
+        [Test]
+        public void PrepareRouteInfo_ShouldReturn_RoutePlan_For_FourStations()
+        {
+            _HarborStation.NearestToStart = _BishanStation;
+            _BishanStation.NearestToStart = _sengkangStation;
+            _kovanStation.NearestToStart = _sengkangStation;
+
+            _algorithm.Setup(a => a.FillShortestPath(It.IsAny<List<Station>>(), It.IsAny<Station>(), It.IsAny<Station>())).Returns(new List<Station>
+            {
+                _HarborStation,
+                _kovanStation,
+                _BishanStation,
+                _sengkangStation,
+            });
+
+            Direction direction = new Direction(_algorithm.Object, _sengkangStation, _HarborStation);
+            var routeInfo = direction.PrepareRouteInfoFrom(new Map());
+
+            Assert.IsTrue(routeInfo.Journey.Contains(_HarborStation.StationName), _HarborStation.StationName);
+            Assert.IsTrue(routeInfo.Journey.Contains(_BishanStation.StationName), _BishanStation.StationName);
+            Assert.IsTrue(routeInfo.Journey.Contains(_sengkangStation.StationName), _kovanStation.StationName);
         }
     }
 }

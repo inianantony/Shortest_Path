@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace ShortestPath.UnitTests
 {
-    public class DijkstraSearch
+    public class DijkstraSearch : ISearchAlgorithm
     {
         public List<Station> FillShortestPath(List<Station> stations, Station startStation, Station endStation)
         {

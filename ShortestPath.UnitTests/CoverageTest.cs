@@ -15,14 +15,15 @@ namespace ShortestPath.UnitTests
 
             var rawStationConvertor = new RawStationConvertor();
             var stations = rawStationConvertor.Convert(rawRecords);
-            var  mrtLines = rawStationConvertor.GroupStationsByLines(rawRecords, stations);
+            var mrtLines = rawStationConvertor.GroupStationsByLines(rawRecords, stations);
 
-            var map = new Map().LinkStations(stations,mrtLines);
+            var map = new Map().LinkStations(stations, mrtLines);
 
             var start = new Station("SengKang");
             var end = new Station("Bishan");
 
-            Direction direction = new Direction(start, end);
+            ISearchAlgorithm algorithm = new DijkstraSearch();
+            Direction direction = new Direction(algorithm, start, end);
             var routeInfo = direction.PrepareRouteInfoFrom(map);
 
             IPrinter printer = new ConsolePrinter(direction);
