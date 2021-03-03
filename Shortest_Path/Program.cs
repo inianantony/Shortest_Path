@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Shortest_Path.Algorithm;
-using Shortest_Path.Mapper;
 using Shortest_Path.Models;
 using Shortest_Path.Reader;
 using Shortest_Path.Services;
