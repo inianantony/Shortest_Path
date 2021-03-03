@@ -33,8 +33,7 @@ namespace Shortest_Path
         private static List<RawStationData> ReadRawStationData()
         {
             IStationDataReader reader = new CsvStationDataReader(@"StationMap.csv");
-            var rawRecords = reader.GetRawStaionRecords();
-            return rawRecords;
+            return reader.GetRawStaionRecords();
         }
 
         private static void PrintTheJourney(RouteInfo routeInfo)
