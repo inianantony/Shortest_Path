@@ -20,7 +20,7 @@ namespace ShortestPath.UnitTests
         public List<string> StationCodes { get; }
         public List<Edge> Connections { get; private set; }
         public Station NearestToStart { get; set; }
-        public double? MinCostToStart { get; set; }
+        public double? MinimumCost { get; set; }
         public bool Visited { get; set; }
 
         public Station AddStationCode(string stationCode)
