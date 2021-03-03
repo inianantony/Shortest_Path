@@ -27,8 +27,7 @@ namespace Shortest_Path
 
             ISearchAlgorithm algorithm = new DijkstraSearch();
             var directionService = new DirectionService(algorithm, option.StartStation, option.EndStation);
-            var routeInfo = directionService.PrepareRouteInfoFrom(map);
-            return routeInfo;
+            return directionService.PrepareRouteInfoFrom(map);
         }
 
         private static List<RawStationData> ReadRawStationData()
