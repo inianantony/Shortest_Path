@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using Castle.Core.Internal;
 using ExpectedObjects;
+using FluentAssertions;
 using NUnit.Framework;
 
 namespace ShortestPath.UnitTests
@@ -13,11 +15,18 @@ namespace ShortestPath.UnitTests
             foreach (var rawStationData in rawRecords)
             {
                 var station = new Station(rawStationData.StationName);
+                if (stations.Exists(a => a.StationName == rawStationData.StationName))
+                {
+                    station = stations.First(a => a.StationName == rawStationData.StationName);
+                }
+                else
+                {
+                    stations.Add(station);
+                }
+
                 station.AddStationCode(rawStationData.StationCode);
                 station.AddLine(rawStationData.Line);
-                stations.Add(station);
             }
-
             return stations;
         }
 
@@ -26,7 +35,7 @@ namespace ShortestPath.UnitTests
         {
             return rawRecords.GroupBy(
                     a => a.Line,
-                    b => stations.First(c => c.StationName == b.StationName))
+                    b => stations.First(c => c.StationName.Equals(b.StationName)))
                 .ToDictionary(
                     a => a.Key,
                     b => b.ToList());
@@ -78,6 +87,42 @@ namespace ShortestPath.UnitTests
 
             var lines = new List<string> { "NE" };
             lines.ToExpectedObject().ShouldMatch(station.Lines);
+        }
+
+        [Test]
+        public void Convert_AddsLine_And_StationCode_To_ExistingStation()
+        {
+            //Arrange
+            var stationName = "Sengkang";
+
+            //Act
+            var stations = _rawStationConvertor.Convert(new List<RawStationData>
+            {
+                new RawStationData
+                {
+                    StationCode = "NE1", StationName = stationName
+                },
+                new RawStationData
+                {
+                    StationCode = "CC1", StationName = stationName
+                }
+            });
+
+            var expected = new List<Station>
+            {
+                new Station(stationName)
+                {
+                    Lines = {"NE", "CC"},
+                    StationCodes = {"NE1", "CC1"}
+                }
+            };
+
+            stations.Should().NotBeEmpty()
+                .And.HaveCount(1)
+                .And.BeEquivalentTo(expected, options => options
+                    .Including(o => o.StationName)
+                    .Including(o => o.Lines)
+                    .Including(a => a.StationCodes));
         }
 
         [Test]

@@ -40,15 +40,16 @@ namespace ShortestPath.UnitTests
             var direction = new Direction(_algorithm.Object, _sengkangStation, _sengkangStation);
             var routeInfo = direction.PrepareRouteInfoFrom(new Map());
 
-            routeInfo.Journey.Should().NotBeEmpty()
-                .And.HaveCount(1)
-                .And.ContainMatch($"*{_sengkangStation.StationName}");
+            routeInfo.Journey.Should().BeEmpty()
+                .And.HaveCount(0);
         }
 
         [Test]
         public void PrepareRouteInfo_ShouldReturn_RoutePlan_For_TwoStations()
         {
             _kovanStation.NearestToStart = _sengkangStation;
+            _kovanStation.AddLine("NE");
+            _sengkangStation.AddLine("NE");
 
             _algorithm.Setup(a => a.FillShortestPath(It.IsAny<List<Station>>(), It.IsAny<Station>(), It.IsAny<Station>())).Returns(new List<Station>
             {
@@ -60,17 +61,24 @@ namespace ShortestPath.UnitTests
             var routeInfo = direction.PrepareRouteInfoFrom(new Map());
 
             routeInfo.Journey.Should().NotBeEmpty()
-                .And.HaveCount(2)
-                .And.ContainMatch($"*{_sengkangStation.StationName}")
-                .And.ContainMatch($"*{_kovanStation.StationName}");
+                .And.HaveCount(1)
+                .And.ContainMatch($"*{_sengkangStation.StationName}*")
+                .And.ContainMatch($"*{_kovanStation.StationName}*");
         }
 
         [Test]
-        public void PrepareRouteInfo_ShouldReturn_RoutePlan_For_FourStations()
+        public void PrepareRouteInfo_ShouldReturn_RoutePlan_For_FourStations_In_DiamondShape()
         {
             _HarborStation.NearestToStart = _BishanStation;
             _BishanStation.NearestToStart = _sengkangStation;
             _kovanStation.NearestToStart = _sengkangStation;
+
+            _sengkangStation.AddLine("NE");
+            _sengkangStation.AddLine("CC");
+            _BishanStation.AddLine("CC");
+            _kovanStation.AddLine("NE");
+            _HarborStation.AddLine("NE");
+            _HarborStation.AddLine("CC");
 
             _algorithm.Setup(a => a.FillShortestPath(It.IsAny<List<Station>>(), It.IsAny<Station>(), It.IsAny<Station>())).Returns(new List<Station>
             {
@@ -84,10 +92,10 @@ namespace ShortestPath.UnitTests
             var routeInfo = direction.PrepareRouteInfoFrom(new Map());
 
             routeInfo.Journey.Should().NotBeEmpty()
-                .And.HaveCount(3)
-                .And.ContainMatch($"*{_sengkangStation.StationName}")
-                .And.ContainMatch($"*{_BishanStation.StationName}")
-                .And.ContainMatch($"*{_HarborStation.StationName}");
+                .And.HaveCount(2)
+                .And.ContainMatch($"*{_sengkangStation.StationName}*")
+                .And.ContainMatch($"*{_BishanStation.StationName}*")
+                .And.ContainMatch($"*{_HarborStation.StationName}*");
         }
     }
 }

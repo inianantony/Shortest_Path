@@ -26,11 +26,10 @@ namespace ShortestPath.UnitTests
             Direction direction = new Direction(algorithm, start, end);
             var routeInfo = direction.PrepareRouteInfoFrom(map);
 
-            IPrinter printer = new ConsolePrinter(direction);
-            printer.PrintJourneyTitle();
-            printer.PrintStations();
-            printer.PrintRoute();
-            printer.PrintJourney();
+            Assert.IsNotEmpty(routeInfo.JourneyTitle);
+            Assert.IsNotEmpty(routeInfo.Route);
+            Assert.IsNotEmpty(routeInfo.StationsTravelled);
+            Assert.IsNotEmpty(routeInfo.Journey);
         }
     }
 }

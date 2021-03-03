@@ -7,7 +7,7 @@ namespace ShortestPath.UnitTests
     {
         public List<Station> FillShortestPath(List<Station> stations, Station startStation, Station endStation)
         {
-            var start = stations.First(a => a == startStation);
+            var start = stations.First(a => a.Equals(startStation));
             start.MinimumCost = 0;
             var priorityQueue = new List<Station> { start };
             do

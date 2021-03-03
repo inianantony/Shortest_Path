@@ -24,7 +24,7 @@ namespace ShortestPath.UnitTests
             var mappedStations = _searchAlgorithm.FillShortestPath(map.Stations, _start, _end);
 
             var shortestPath = new List<Station>();
-            var end = mappedStations.First(a => a == _end);
+            var end = mappedStations.First(a => a.Equals(_end));
             shortestPath.Add(end);
             BuildShortestPath(shortestPath, end);
             shortestPath.Reverse();

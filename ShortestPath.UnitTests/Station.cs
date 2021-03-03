@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ExpectedObjects;
@@ -5,7 +6,7 @@ using NUnit.Framework;
 
 namespace ShortestPath.UnitTests
 {
-    public class Station : IEqualityComparer<Station>
+    public class Station : IEqualityComparer<Station>, IComparable<Station>
     {
         public Station(string stationName)
         {
@@ -15,7 +16,7 @@ namespace ShortestPath.UnitTests
             Connections = new List<Edge>();
         }
 
-        public string StationName { get; set; }
+        public string StationName { get; }
         public List<string> Lines { get; }
         public List<string> StationCodes { get; }
         public List<Edge> Connections { get; private set; }
@@ -48,7 +49,7 @@ namespace ShortestPath.UnitTests
             foreach (var line in mrtLines)
             {
                 var nearbyIndices = GetNearbyStationIndices(line);
-                nearbyStations.AddRange(nearbyIndices.Select(a => stations.First(b => b == line.Value[a])).ToList());
+                nearbyStations.AddRange(nearbyIndices.Select(a => stations.First(b => b.Equals(line.Value[a]))).ToList());
             }
 
             Connections = nearbyStations.Distinct().Select(a => new Edge { ConnectedStation = a, Cost = 1, Length = 1 }).ToList();
@@ -83,18 +84,26 @@ namespace ShortestPath.UnitTests
             return nearbyIndices;
         }
 
-        private static void AddLinkStation(List<Station> stations, List<Edge> linkedStaions, Station station)
+        public override int GetHashCode()
         {
-            if (linkedStaions.Exists(a => a.ConnectedStation.StationName == station.StationName))
-            {
-                return;
-            }
-            linkedStaions.Add(new Edge
-            {
-                ConnectedStation = station,
-                Length = 1,
-                Cost = 1
-            });
+            return StationName.GetHashCode();
+        }
+
+        public override bool Equals(object? y)
+        {
+            return Equals(this, y as Station);
+        }
+
+        public override string ToString()
+        {
+            return StationName;
+        }
+
+        public int CompareTo(Station other)
+        {
+            if (ReferenceEquals(this, other)) return 0;
+            if (ReferenceEquals(null, other)) return 1;
+            return string.Compare(StationName, other.StationName, StringComparison.Ordinal);
         }
 
         public bool Equals(Station x, Station y)
@@ -108,12 +117,7 @@ namespace ShortestPath.UnitTests
 
         public int GetHashCode(Station obj)
         {
-            return (obj.StationName != null ? obj.StationName.GetHashCode() : 0);
-        }
-
-        public override string ToString()
-        {
-            return StationName;
+            return GetHashCode();
         }
     }
 
