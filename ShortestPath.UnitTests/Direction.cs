@@ -4,9 +4,18 @@ namespace ShortestPath.UnitTests
 {
     public class Direction
     {
-        public Direction(List<RawStationData> route)
+        private readonly Station _start;
+        private readonly Station _end;
+
+        public Direction(Station start, Station end)
         {
-            throw new System.NotImplementedException();
+            _start = start;
+            _end = end;
+        }
+
+        public List<Station> PrepareRouteFrom(Map map)
+        {
+            return null;
         }
     }
 }

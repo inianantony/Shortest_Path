@@ -17,15 +17,13 @@ namespace ShortestPath.UnitTests
             var stations = rawStationConvertor.Convert(rawRecords);
             var  mrtLines = rawStationConvertor.GroupStationsByLines(rawRecords, stations);
 
-            var stationRecords = new StationRecords(stations);
-            var linkedStations = stationRecords.LinkStations(stations,mrtLines);
-            var map = new Map(linkedStations);
+            var map = new Map().LinkStations(stations,mrtLines);
 
             var start = new Station("SengKang");
             var end = new Station("Bishan");
-            var route = map.GetRouteFor(start, end);
 
-            Direction direction = new Direction(route);
+            Direction direction = new Direction(start, end);
+            var route = direction.PrepareRouteFrom(map);
             IPrinter printer = new ConsolePrinter(direction);
             printer.PrintJourneyTitle();
             printer.PrintStations();
