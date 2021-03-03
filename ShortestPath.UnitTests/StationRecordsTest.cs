@@ -21,13 +21,13 @@ namespace ShortestPath.UnitTests
             stations.Add(kovanStation);
 
             StationRecords records = new StationRecords(stations);
-            var linkedStations = records.GetLinkedStations();
+            var linkedStations = records.LinkStations(new List<Station>(), new Dictionary<string, List<Station>>());
 
             var sengkangConnection = linkedStations.Find(a => a.StationName == sengKangStation.StationName).Connections;
             var kovanConnection = linkedStations.Find(a => a.StationName == kovanStation.StationName).Connections;
 
             Assert.AreEqual(1, sengkangConnection.Count);
-            Assert.AreEqual(kovanStation.StationName , sengkangConnection.First().ConnectedStation.StationName);
+            Assert.AreEqual(kovanStation.StationName, sengkangConnection.First().ConnectedStation.StationName);
 
             Assert.AreEqual(1, kovanConnection.Count);
             Assert.AreEqual(sengKangStation.StationName, kovanConnection.First().ConnectedStation.StationName);

@@ -18,7 +18,7 @@ namespace ShortestPath.UnitTests
             var  mrtLines = rawStationConvertor.GroupStationsByLines(rawRecords, stations);
 
             var stationRecords = new StationRecords(stations);
-            var linkedStations = stationRecords.GetLinkedStations();
+            var linkedStations = stationRecords.LinkStations(stations,mrtLines);
             var map = new Map(linkedStations);
 
             var start = new Station("SengKang");
