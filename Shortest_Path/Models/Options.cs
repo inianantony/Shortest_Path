@@ -1,7 +1,7 @@
 ﻿using System;
 using CommandLine;
 
-namespace Shortest_Path
+namespace Shortest_Path.Models
 {
     public class Options
     {

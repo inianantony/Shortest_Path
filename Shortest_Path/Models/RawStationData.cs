@@ -1,4 +1,4 @@
-namespace Shortest_Path
+namespace Shortest_Path.Models
 {
     public class RawStationData
     {

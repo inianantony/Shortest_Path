@@ -1,6 +1,7 @@
 using CsvHelper.Configuration;
+using Shortest_Path.Models;
 
-namespace Shortest_Path
+namespace Shortest_Path.Mapper
 {
     public sealed class StationDataMap : ClassMap<RawStationData>
     {

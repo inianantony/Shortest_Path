@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Shortest_Path;
+using Shortest_Path.Models;
 
 namespace ShortestPath.UnitTests
 {

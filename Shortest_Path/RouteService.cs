@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Shortest_Path.Algorithm;
+using Shortest_Path.Mapper;
 using Shortest_Path.Models;
 
 namespace Shortest_Path
