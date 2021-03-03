@@ -5,9 +5,14 @@ VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shortest_Path", "Shortest_Path\Shortest_Path.csproj", "{14D26EE0-551D-4FE1-ACCA-0956561DBB8A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShortestPath.UnitTests", "ShortestPath.UnitTests\ShortestPath.UnitTests.csproj", "{CE90494C-F70E-4A44-8410-2840C33AD3D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShortestPath.UnitTests", "ShortestPath.UnitTests\ShortestPath.UnitTests.csproj", "{CE90494C-F70E-4A44-8410-2840C33AD3D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShortestPath.IntegrationTest", "ShortestPath.IntegrationTest\ShortestPath.IntegrationTest.csproj", "{1A7D67DB-30A6-46BE-851A-23935C4564D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShortestPath.IntegrationTest", "ShortestPath.IntegrationTest\ShortestPath.IntegrationTest.csproj", "{1A7D67DB-30A6-46BE-851A-23935C4564D4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DA664CAD-1FEF-4200-8EF3-3465F2B3780B}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
