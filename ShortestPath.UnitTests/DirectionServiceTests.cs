@@ -5,10 +5,11 @@ using NUnit.Framework;
 using Shortest_Path;
 using Shortest_Path.Algorithm;
 using Shortest_Path.Models;
+using Shortest_Path.Services;
 
 namespace ShortestPath.UnitTests
 {
-    public class DirectionTests
+    public class DirectionServiceTests
     {
         private Station _sengkangStation;
         private Station _kovanStation;
@@ -40,7 +41,7 @@ namespace ShortestPath.UnitTests
                 _sengkangStation
             });
 
-            var direction = new Direction(_algorithm.Object, _sengkangStation, _sengkangStation);
+            var direction = new DirectionService(_algorithm.Object, _sengkangStation, _sengkangStation);
             var routeInfo = direction.PrepareRouteInfoFrom(new Map());
 
             routeInfo.Journey.Should().BeEmpty()
@@ -60,7 +61,7 @@ namespace ShortestPath.UnitTests
                 _sengkangStation
             });
 
-            var direction = new Direction(_algorithm.Object, _sengkangStation, _kovanStation);
+            var direction = new DirectionService(_algorithm.Object, _sengkangStation, _kovanStation);
             var routeInfo = direction.PrepareRouteInfoFrom(new Map());
 
             routeInfo.Journey.Should().NotBeEmpty()
@@ -91,7 +92,7 @@ namespace ShortestPath.UnitTests
                 _sengkangStation,
             });
 
-            var direction = new Direction(_algorithm.Object, _sengkangStation, _HarborStation);
+            var direction = new DirectionService(_algorithm.Object, _sengkangStation, _HarborStation);
             var routeInfo = direction.PrepareRouteInfoFrom(new Map());
 
             routeInfo.Journey.Should().NotBeEmpty()

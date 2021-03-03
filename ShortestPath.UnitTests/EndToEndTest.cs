@@ -4,6 +4,8 @@ using Shortest_Path;
 using Shortest_Path.Algorithm;
 using Shortest_Path.Mapper;
 using Shortest_Path.Models;
+using Shortest_Path.Reader;
+using Shortest_Path.Services;
 
 namespace ShortestPath.UnitTests
 {
@@ -26,8 +28,8 @@ namespace ShortestPath.UnitTests
             var end = new Station("Bishan");
 
             ISearchAlgorithm algorithm = new DijkstraSearch();
-            Direction direction = new Direction(algorithm, start, end);
-            var routeInfo = direction.PrepareRouteInfoFrom(map);
+            DirectionService directionService = new DirectionService(algorithm, start, end);
+            var routeInfo = directionService.PrepareRouteInfoFrom(map);
 
             Assert.IsNotEmpty(routeInfo.JourneyTitle);
             Assert.IsNotEmpty(routeInfo.Route);

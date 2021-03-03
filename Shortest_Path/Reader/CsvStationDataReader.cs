@@ -5,7 +5,7 @@ using CsvHelper;
 using Shortest_Path.Mapper;
 using Shortest_Path.Models;
 
-namespace Shortest_Path
+namespace Shortest_Path.Reader
 {
     public class CsvStationDataReader : IStationDataReader
     {

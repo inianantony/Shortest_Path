@@ -10,6 +10,9 @@ namespace Shortest_Path.Models
         [Option('e', "end", Required = false, HelpText = "Enter the destination")]
         public string End { get; set; }
 
+        public Station StartStation => new Station(Start); 
+        public Station EndStation => new Station(End);
+
         public static Options GetOptions(string[] args)
         {
             string start = string.Empty;

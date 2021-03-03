@@ -3,9 +3,9 @@ using System.Linq;
 using Shortest_Path.Algorithm;
 using Shortest_Path.Models;
 
-namespace Shortest_Path
+namespace Shortest_Path.Services
 {
-    public class Direction
+    public class DirectionService
     {
         private readonly ISearchAlgorithm _searchAlgorithm;
         private readonly Station _start;
@@ -14,7 +14,7 @@ namespace Shortest_Path
 
         public double ShortestPathLength { get; set; }
 
-        public Direction(ISearchAlgorithm searchAlgorithm, Station start, Station end)
+        public DirectionService(ISearchAlgorithm searchAlgorithm, Station start, Station end)
         {
             _searchAlgorithm = searchAlgorithm;
             _start = start;

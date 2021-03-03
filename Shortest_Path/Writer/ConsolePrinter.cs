@@ -1,7 +1,7 @@
 using System;
 using Shortest_Path.Models;
 
-namespace Shortest_Path
+namespace Shortest_Path.Writer
 {
     public class ConsolePrinter : IPrinter
     {

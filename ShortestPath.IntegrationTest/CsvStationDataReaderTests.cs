@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using Shortest_Path;
+using Shortest_Path.Reader;
 
 namespace ShortestPath.IntegrationTest
 {

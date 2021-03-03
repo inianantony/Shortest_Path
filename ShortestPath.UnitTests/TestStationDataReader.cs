@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Shortest_Path;
 using Shortest_Path.Models;
+using Shortest_Path.Reader;
 
 namespace ShortestPath.UnitTests
 {

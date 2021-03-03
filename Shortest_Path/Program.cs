@@ -1,5 +1,10 @@
 ﻿using System.Collections.Generic;
+using Shortest_Path.Algorithm;
+using Shortest_Path.Mapper;
 using Shortest_Path.Models;
+using Shortest_Path.Reader;
+using Shortest_Path.Services;
+using Shortest_Path.Writer;
 
 namespace Shortest_Path
 {
@@ -11,9 +16,19 @@ namespace Shortest_Path
 
             var rawRecords = ReadRawStationData();
 
-            var routeInfo = new RouteService().GetARoute(rawRecords, option);
+            var routeInfo = GetRoute(rawRecords, option);
 
             PrintTheJourney(routeInfo);
+        }
+
+        private static RouteInfo GetRoute(List<RawStationData> rawRecords, Options option)
+        {
+            var map = new Map(rawRecords).LinkStations();
+
+            ISearchAlgorithm algorithm = new DijkstraSearch();
+            var directionService = new DirectionService(algorithm, option.StartStation, option.EndStation);
+            var routeInfo = directionService.PrepareRouteInfoFrom(map);
+            return routeInfo;
         }
 
         private static List<RawStationData> ReadRawStationData()
