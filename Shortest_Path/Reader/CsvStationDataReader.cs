@@ -18,14 +18,12 @@ namespace Shortest_Path.Reader
 
         public List<RawStationData> GetRawStaionRecords()
         {
-            List<RawStationData> rawStationDatas = new List<RawStationData>();
-            using (var reader = new StreamReader(@"c:\tmp\StationMap.csv"))
+            var rawStationDatas = new List<RawStationData>();
+            using (var reader = new StreamReader(_filePath))
             using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
             {
                 csv.Context.RegisterClassMap<StationDataMap>();
                 csv.Context.Configuration.Delimiter = ",";
-                var stationData = new RawStationData();
-                //var records = csv.EnumerateRecords(stationData);
                 var records = csv.GetRecords<RawStationData>();
                 foreach (var record in records)
                 {
