@@ -13,7 +13,7 @@ namespace Shortest_Path
         {
             var option = Options.GetOptions(args);
 
-            var rawRecords = ReadRawStationData();
+            var rawRecords = ReadRawStationData(option);
 
             var routeInfo = GetRoute(rawRecords, option);
 
@@ -29,9 +29,9 @@ namespace Shortest_Path
             return directionService.PrepareRouteInfoFrom(map);
         }
 
-        private static List<RawStationData> ReadRawStationData()
+        private static List<RawStationData> ReadRawStationData(Options options)
         {
-            IStationDataReader reader = new CsvStationDataReader(@"StationMap.csv");
+            IStationDataReader reader = new CsvStationDataReader(options.CsvPath);
             return reader.GetRawStaionRecords();
         }
 
