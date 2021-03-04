@@ -1,5 +1,6 @@
-﻿#!/bin/bash
+#!bin/bash
 
+echo "************** Preparing to build docker image *****************"
 docker build -t shortest_path:latest -f Dockerfile . --progress=plain
 echo "******************* Completed Building Docker Image *******************"
 
