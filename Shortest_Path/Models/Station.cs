@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -41,13 +40,12 @@ namespace Shortest_Path.Models
             return this;
         }
 
-        public Station ConnectNearByStations(List<Station> stations, Dictionary<string, List<Station>> mrtLines)
+        public Station ConnectNearByStations(Dictionary<string, List<Station>> mrtLines)
         {
             var nearbyStations = new List<Station>();
-            foreach (var line in mrtLines)
+            foreach (var line in mrtLines.Values)
             {
-                var nearbyIndices = GetNearbyStationIndices(line);
-                nearbyStations.AddRange(nearbyIndices.Select(a => stations.First(b => b.IsSameAs(line.Value[a]))).ToList());
+                nearbyStations.AddRange(GetNearbyStations(line));
             }
 
             Connections = nearbyStations.Distinct().Select(a => new Edge { ConnectedStation = a, Cost = 1, Length = 1 }).ToList();
@@ -55,31 +53,34 @@ namespace Shortest_Path.Models
             return this;
         }
 
-        private List<int> GetNearbyStationIndices(KeyValuePair<string, List<Station>> line)
+        private List<Station> GetNearbyStations(List<Station> aMrtLine)
         {
-            var nearbyIndices = new List<int>();
-            for (var i = 0; i < line.Value.Count; i++)
+            var nearbyStations = new List<Station>();
+            for (var i = 0; i < aMrtLine.Count; i++)
             {
-                if (!IsSameAs(line.Value[i])) continue;
+                if (!IsSameAs(aMrtLine[i])) continue;
 
-                var firstStation = i == 0;
-                var lastStation = i == line.Value.Count - 1;
-                if (firstStation)
+                var firstStationIndex = i == 0;
+                var lastStationIndex = i == aMrtLine.Count - 1;
+                var nextStationIndex = i + 1;
+                var previousStationIndex = i - 1;
+
+                if (firstStationIndex)
                 {
-                    nearbyIndices.Add(i + 1);
+                    nearbyStations.Add(aMrtLine[nextStationIndex]);
                 }
-                else if (lastStation)
+                else if (lastStationIndex)
                 {
-                    nearbyIndices.Add(i - 1);
+                    nearbyStations.Add(aMrtLine[previousStationIndex]);
                 }
                 else
                 {
-                    nearbyIndices.Add(i + 1);
-                    nearbyIndices.Add(i - 1);
+                    nearbyStations.Add(aMrtLine[nextStationIndex]);
+                    nearbyStations.Add(aMrtLine[previousStationIndex]);
                 }
             }
 
-            return nearbyIndices;
+            return nearbyStations;
         }
 
         public bool IsSameAs(string stationName)

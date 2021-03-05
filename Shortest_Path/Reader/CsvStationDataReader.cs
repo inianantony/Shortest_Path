@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using CsvHelper;
 using Shortest_Path.Mapper;
 using Shortest_Path.Models;
@@ -16,22 +17,13 @@ namespace Shortest_Path.Reader
             _filePath = filePath;
         }
 
-        public List<RawStationData> GetRawStaionRecords()
+        public List<RawStationData> GetRawStationRecords()
         {
-            var rawStationDatas = new List<RawStationData>();
-            using (var reader = new StreamReader(_filePath))
-            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
-            {
-                csv.Context.RegisterClassMap<StationDataMap>();
-                csv.Context.Configuration.Delimiter = ",";
-                var records = csv.GetRecords<RawStationData>();
-                foreach (var record in records)
-                {
-                    rawStationDatas.Add(record);
-                }
-
-                return rawStationDatas;
-            }
+            using var reader = new StreamReader(_filePath);
+            using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+            csv.Context.RegisterClassMap<StationDataMap>();
+            csv.Context.Configuration.Delimiter = ",";
+            return csv.GetRecords<RawStationData>().ToList();
         }
     }
 }

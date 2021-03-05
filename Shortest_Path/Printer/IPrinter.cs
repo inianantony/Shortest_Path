@@ -1,6 +1,6 @@
 using Shortest_Path.Models;
 
-namespace Shortest_Path.Writer
+namespace Shortest_Path.Printer
 {
     public interface IPrinter
     {

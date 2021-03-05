@@ -52,10 +52,10 @@ namespace ShortestPath.UnitTests
         }
 
         [Test]
-        public void StationsTravelled_Shows_Hop_Count()
+        public void StationsTraveled_Shows_Hop_Count()
         {
             var routeInfo = new RouteInfo(_stations, _sengkangStation, _kovanStation);
-            Assert.AreEqual("Stations travelled: 2", routeInfo.StationsTravelled);
+            Assert.AreEqual("Stations traveled: 2", routeInfo.StationsTraveled);
         }
 
         [Test]

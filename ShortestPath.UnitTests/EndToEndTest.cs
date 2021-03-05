@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Moq;
 using NUnit.Framework;
 using Shortest_Path;
 using Shortest_Path.Algorithm;
@@ -15,8 +16,16 @@ namespace ShortestPath.UnitTests
         [Test]
         public void GetRoute_End_To_End_Test()
         {
-            IStationDataReader reader = new TestStationDataReader();
-            var rawRecords = reader.GetRawStaionRecords();
+            var rawRecords = new List<RawStationData>
+            {
+                new RawStationData {StationCode = "NE1", StationName = "SengKang", OpeningDate = string.Empty},
+                new RawStationData {StationCode = "NE2", StationName = "Kovan", OpeningDate = string.Empty},
+                new RawStationData {StationCode = "NE3", StationName = "Serangoon", OpeningDate = string.Empty},
+                new RawStationData {StationCode = "NE4", StationName = "BoonKeng", OpeningDate = string.Empty},
+                new RawStationData {StationCode = "CC1", StationName = "Lorang", OpeningDate = string.Empty},
+                new RawStationData {StationCode = "CC2", StationName = "Serangoon", OpeningDate = string.Empty},
+                new RawStationData {StationCode = "CC3", StationName = "Bishan", OpeningDate = string.Empty},
+            };
 
             var map = new Map(rawRecords).LinkStations();
 
@@ -29,7 +38,7 @@ namespace ShortestPath.UnitTests
 
             Assert.IsNotEmpty(routeInfo.JourneyTitle);
             Assert.IsNotEmpty(routeInfo.Route);
-            Assert.IsNotEmpty(routeInfo.StationsTravelled);
+            Assert.IsNotEmpty(routeInfo.StationsTraveled);
             Assert.IsNotEmpty(routeInfo.Journey);
         }
     }

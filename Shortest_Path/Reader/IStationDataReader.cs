@@ -5,6 +5,6 @@ namespace Shortest_Path.Reader
 {
     public interface IStationDataReader
     {
-        List<RawStationData> GetRawStaionRecords();
+        List<RawStationData> GetRawStationRecords();
     }
 }

@@ -15,7 +15,7 @@ namespace ShortestPath.IntegrationTest
         public void GetRawStaionRecords_Able_To_Read_StationMap_Csv()
         {
             CsvStationDataReader reader = new CsvStationDataReader(@"StationMap.csv");
-            var stations = reader.GetRawStaionRecords();
+            var stations = reader.GetRawStationRecords();
 
             Assert.Greater(stations.Count, 1);
         }

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using ExpectedObjects;
 using NUnit.Framework;
-using Shortest_Path;
 using Shortest_Path.Models;
 
 namespace ShortestPath.UnitTests
@@ -106,7 +105,7 @@ namespace ShortestPath.UnitTests
             {
                 {"NE", new List<Station> {_sengkangStation, _kovanStation}}
             };
-            var connections = _sengkangStation.ConnectNearByStations(_stations, neLine).Connections;
+            var connections = _sengkangStation.ConnectNearByStations(neLine).Connections;
             var expectedConnection = new List<Edge>
             {
                 new Edge{ConnectedStation = _kovanStation,Cost = 1,Length = 1}
@@ -121,7 +120,7 @@ namespace ShortestPath.UnitTests
             {
                 {"NE", new List<Station> {_sengkangStation, _kovanStation}}
             };
-            var connections = _kovanStation.ConnectNearByStations(_stations, neLine).Connections;
+            var connections = _kovanStation.ConnectNearByStations(neLine).Connections;
             var expectedConnection = new List<Edge>
             {
                 new Edge{ConnectedStation = _sengkangStation,Cost = 1,Length = 1}
@@ -136,7 +135,7 @@ namespace ShortestPath.UnitTests
             {
                 {"NE", new List<Station> {_sengkangStation, _SerangoonStation, _kovanStation}}
             };
-            var connections = _SerangoonStation.ConnectNearByStations(_stations, neLine).Connections;
+            var connections = _SerangoonStation.ConnectNearByStations(neLine).Connections;
             var expectedConnection = new List<Edge>
             {
                 new Edge{ConnectedStation = _sengkangStation,Cost = 1,Length = 1},
@@ -153,7 +152,7 @@ namespace ShortestPath.UnitTests
                 {"NE", new List<Station> {_sengkangStation, _SerangoonStation, _kovanStation}},
                 {"CC", new List<Station> {_BishanStation, _SerangoonStation}},
             };
-            var connections = _SerangoonStation.ConnectNearByStations(_stations, neLine).Connections;
+            var connections = _SerangoonStation.ConnectNearByStations(neLine).Connections;
             var expectedConnection = new List<Edge>
             {
                 new Edge{ConnectedStation = _sengkangStation,Cost = 1,Length = 1},
@@ -161,6 +160,20 @@ namespace ShortestPath.UnitTests
                 new Edge{ConnectedStation = _BishanStation,Cost = 1,Length = 1},
             };
             expectedConnection.ToExpectedObject().ShouldMatch(connections);
+        }
+
+        [Test]
+        public void IsSameAs_Should_ReturnTrue_IfName_Is_Same()
+        {
+            Assert.IsTrue(new Station("Kovan").IsSameAs("Kovan"));
+            Assert.IsTrue(new Station("Kovan").IsSameAs(new Station("Kovan")));
+        }
+
+        [Test]
+        public void IsSameAs_Should_ReturnFalse_IfName_Is_Not_Same()
+        {
+            Assert.IsFalse(new Station("Kovan").IsSameAs("Ubi"));
+            Assert.IsFalse(new Station("Kovan").IsSameAs(new Station("Ubi")));
         }
     }
 }

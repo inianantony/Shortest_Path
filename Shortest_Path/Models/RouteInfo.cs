@@ -10,35 +10,35 @@ namespace Shortest_Path.Models
         private readonly Station _end;
 
         public string JourneyTitle => $"Travel from {_start.StationName} to {_end.StationName}";
-        public string StationsTravelled => $"Stations travelled: {_shortestPath.Count}";
+        public string StationsTraveled => $"Stations traveled: {_shortestPath.Count}";
 
         public string Route
         {
             get
             {
-                var preIntersect = string.Empty;
+                var preIntersectStationCode = string.Empty;
                 var routes = new List<string>();
-                for (int i = 0; i < _shortestPath.Count - 1; i++)
+                for (var i = 0; i < _shortestPath.Count - 1; i++)
                 {
-                    var current = _shortestPath[i];
-                    var next = _shortestPath[i + 1];
-                    var getIntersectingStation = current.Lines.Intersect(next.Lines).First();
+                    var currentStation = _shortestPath[i];
+                    var nextStation = _shortestPath[i + 1];
+                    var getIntersectingStationCode = currentStation.Lines.Intersect(nextStation.Lines).First();
 
-                    var switchingLines = preIntersect != getIntersectingStation && preIntersect != string.Empty;
+                    var switchingLines = preIntersectStationCode != getIntersectingStationCode && preIntersectStationCode != string.Empty;
                     if (switchingLines)
                     {
-                        routes.Add(current.StationCodes.Find(a => a.StartsWith(preIntersect)));
+                        routes.Add(currentStation.StationCodes.Find(a => a.StartsWith(preIntersectStationCode)));
                     }
 
-                    routes.Add(current.StationCodes.Find(a => a.StartsWith(getIntersectingStation)));
+                    routes.Add(currentStation.StationCodes.Find(a => a.StartsWith(getIntersectingStationCode)));
 
                     var closeToLastStation = i == _shortestPath.Count - 2;
                     if (closeToLastStation)
                     {
-                        routes.Add(next.StationCodes.Find(a => a.StartsWith(getIntersectingStation)));
+                        routes.Add(nextStation.StationCodes.Find(a => a.StartsWith(getIntersectingStationCode)));
                     }
 
-                    preIntersect = getIntersectingStation;
+                    preIntersectStationCode = getIntersectingStationCode;
                 }
 
                 return $"Route : ('{string.Join("', '", routes) }')";
@@ -49,20 +49,20 @@ namespace Shortest_Path.Models
         {
             get
             {
-                var preIntersect = string.Empty;
-                List<string> routes = new List<string>();
+                var preIntersectStationCode = string.Empty;
+                var routes = new List<string>();
                 for (int i = 0; i < _shortestPath.Count - 1; i++)
                 {
-                    var current = _shortestPath[i];
-                    var next = _shortestPath[i + 1];
-                    var getIntersectingStation = current.Lines.Intersect(next.Lines).First();
-                    if (preIntersect != getIntersectingStation && preIntersect != string.Empty)
+                    var currentStation = _shortestPath[i];
+                    var nextStation = _shortestPath[i + 1];
+                    var getIntersectingStationCode = currentStation.Lines.Intersect(nextStation.Lines).First();
+                    if (preIntersectStationCode != getIntersectingStationCode && preIntersectStationCode != string.Empty)
                     {
-                        routes.Add($"Change from {preIntersect} line to {getIntersectingStation} line");
+                        routes.Add($"Change from {preIntersectStationCode} line to {getIntersectingStationCode} line");
                     }
 
-                    preIntersect = getIntersectingStation;
-                    routes.Add($"Take {getIntersectingStation} line from {current.StationName} to {next.StationName}");
+                    preIntersectStationCode = getIntersectingStationCode;
+                    routes.Add($"Take {getIntersectingStationCode} line from {currentStation.StationName} to {nextStation.StationName}");
                 }
 
                 return routes;

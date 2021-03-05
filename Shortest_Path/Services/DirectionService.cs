@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+ using System.Collections.Generic;
 using System.Linq;
 using Shortest_Path.Algorithm;
 using Shortest_Path.Models;
@@ -10,9 +10,6 @@ namespace Shortest_Path.Services
         private readonly ISearchAlgorithm _searchAlgorithm;
         private readonly Station _start;
         private readonly Station _end;
-        public double ShortestPathCost { get; set; }
-
-        public double ShortestPathLength { get; set; }
 
         public DirectionService(ISearchAlgorithm searchAlgorithm, Station start, Station end)
         {
@@ -30,9 +27,6 @@ namespace Shortest_Path.Services
             shortestPath.Add(end);
             BuildShortestPath(shortestPath, end);
             shortestPath.Reverse();
-
-            ShortestPathLength += end.MinimumCost ?? 0;
-            ShortestPathCost += end.MinimumCost ?? 0;
 
             return new RouteInfo(shortestPath, _start, end);
         }

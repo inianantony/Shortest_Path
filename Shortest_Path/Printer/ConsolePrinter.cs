@@ -1,7 +1,7 @@
 using System;
 using Shortest_Path.Models;
 
-namespace Shortest_Path.Writer
+namespace Shortest_Path.Printer
 {
     public class ConsolePrinter : IPrinter
     {
@@ -14,7 +14,7 @@ namespace Shortest_Path.Writer
 
         private void PrintStations()
         {
-            Console.WriteLine(_routeInfo.StationsTravelled);
+            Console.WriteLine(_routeInfo.StationsTraveled);
         }
 
         private void PrintRoute()

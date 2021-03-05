@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using Shortest_Path.Mapper;
-using Shortest_Path.Models;
 
-namespace Shortest_Path
+namespace Shortest_Path.Models
 {
     public class Map
     {
@@ -23,7 +22,7 @@ namespace Shortest_Path
 
         public Map LinkStations()
         {
-            Stations.ForEach(a => a.ConnectNearByStations(Stations, MrtLines));
+            Stations.ForEach(a => a.ConnectNearByStations(MrtLines));
             return this;
         }
     }

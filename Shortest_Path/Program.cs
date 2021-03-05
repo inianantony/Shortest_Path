@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Shortest_Path.Algorithm;
 using Shortest_Path.Models;
+using Shortest_Path.Printer;
 using Shortest_Path.Reader;
 using Shortest_Path.Services;
-using Shortest_Path.Writer;
 
 namespace Shortest_Path
 {
@@ -41,7 +41,7 @@ namespace Shortest_Path
         private static List<RawStationData> ReadRawStationData(Options options)
         {
             IStationDataReader reader = new CsvStationDataReader(options.CsvPath);
-            return reader.GetRawStaionRecords();
+            return reader.GetRawStationRecords();
         }
 
         private static void PrintTheJourney(RouteInfo routeInfo)
