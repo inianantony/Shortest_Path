@@ -18,17 +18,13 @@ namespace ShortestPath.UnitTests
             IStationDataReader reader = new TestStationDataReader();
             var rawRecords = reader.GetRawStaionRecords();
 
-            var rawStationConvertor = new RawStationConvertor();
-            var stations = rawStationConvertor.Convert(rawRecords);
-            var mrtLines = rawStationConvertor.GroupStationsByLines(rawRecords, stations);
-
             var map = new Map(rawRecords).LinkStations();
 
             var start = new Station("SengKang");
             var end = new Station("Bishan");
 
             ISearchAlgorithm algorithm = new DijkstraSearch();
-            DirectionService directionService = new DirectionService(algorithm, start, end);
+            var directionService = new DirectionService(algorithm, start, end);
             var routeInfo = directionService.PrepareRouteInfoFrom(map);
 
             Assert.IsNotEmpty(routeInfo.JourneyTitle);
