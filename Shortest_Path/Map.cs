@@ -6,10 +6,8 @@ namespace Shortest_Path
 {
     public class Map
     {
-        private readonly List<RawStationData> _rawStationDatas;
         public List<Station> Stations { get; }
         public Dictionary<string, List<Station>> MrtLines { get; }
-
 
         public Map()
         {

@@ -23,7 +23,7 @@ namespace ShortestPath.UnitTests.ModelsTest
         [Test]
         public void Validate_ShouldThrowException_If_Start_Is_NotPassed()
         {
-            Exception ex = Assert.Throws<Exception>(() =>
+            var ex = Assert.Throws<Exception>(() =>
             {
                 Options.GetInputOptions(new[] { "--end=Kovan", @"--csvpath=c:\Station.csv" });
             });
@@ -33,7 +33,7 @@ namespace ShortestPath.UnitTests.ModelsTest
         [Test]
         public void Validate_ShouldThrowException_If_End_Is_NotPassed()
         {
-            Exception ex = Assert.Throws<Exception>(() =>
+            var ex = Assert.Throws<Exception>(() =>
             {
                 Options.GetInputOptions(new[] { "--start=Ubi",  @"--csvpath=c:\Station.csv" });
             });
@@ -43,7 +43,7 @@ namespace ShortestPath.UnitTests.ModelsTest
         [Test]
         public void Validate_ShouldThrowException_If_Csv_Path_Is_NotPassed()
         {
-            Exception ex = Assert.Throws<Exception>(() =>
+            var ex = Assert.Throws<Exception>(() =>
             {
                 Options.GetInputOptions(new[] { "--start=Ubi", "--end=Kovan" });
             });
