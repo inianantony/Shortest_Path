@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using FluentAssertions;
 using NUnit.Framework;
@@ -34,7 +35,8 @@ namespace ShortestPath.UnitTests.Algorithm
                 _kovanStation
             };
             var dijkstraSearch = new DijkstraSearch();
-            var path = dijkstraSearch.FillShortestPath(_stations, _sengkangStation, _kovanStation);
+            var option = new Options { Start = _sengkangStation.StationName, End = _kovanStation.StationName };
+            var path = dijkstraSearch.FillShortestPath(_stations, option);
 
             var expected = new List<Station>
             {
@@ -65,7 +67,8 @@ namespace ShortestPath.UnitTests.Algorithm
                 _harborStation
             };
             var dijkstraSearch = new DijkstraSearch();
-            var path = dijkstraSearch.FillShortestPath(_stations, _sengkangStation, _harborStation);
+            var option = new Options { Start = _sengkangStation.StationName, End = _harborStation.StationName };
+            var path = dijkstraSearch.FillShortestPath(_stations, option);
 
             var expected = new List<Station>
             {
@@ -103,7 +106,8 @@ namespace ShortestPath.UnitTests.Algorithm
                 _harborStation
             };
             var dijkstraSearch = new DijkstraSearch();
-            var path = dijkstraSearch.FillShortestPath(_stations, _sengkangStation, _harborStation);
+            var option = new Options { Start = _sengkangStation.StationName, End = _harborStation.StationName };
+            var path = dijkstraSearch.FillShortestPath(_stations, option);
 
             var expected = new List<Station>
             {
@@ -142,7 +146,8 @@ namespace ShortestPath.UnitTests.Algorithm
                 _harborStation
             };
             var dijkstraSearch = new DijkstraSearch();
-            var path = dijkstraSearch.FillShortestPath(_stations, _sengkangStation, _harborStation);
+            var option = new Options { Start = _sengkangStation.StationName, End = _harborStation.StationName };
+            var path = dijkstraSearch.FillShortestPath(_stations, option);
 
             var expected = new List<Station>
             {
@@ -159,5 +164,258 @@ namespace ShortestPath.UnitTests.Algorithm
                     .Including(o => o.MinimumCost)
                     .Including(a => a.NearestToStart));
         }
+
+        [TestCase("NE", 13)]
+        [TestCase("NS", 13)]
+        [TestCase("CC", 11)]
+        public void Scenario_User_Journey_Falls_In_Line_During_PeakTime_WeekDays_Costs_More(string line, int cost)
+        {
+            _sengkangStation.AddLine(line);
+            _kovanStation.AddLine(line);
+            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
+            _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1, Length = 1 });
+            _stations = new List<Station>
+            {
+                _sengkangStation,
+                _kovanStation
+            };
+            var dijkstraSearch = new DijkstraSearch();
+            var option = new Options
+            {
+                Start = _sengkangStation.StationName,
+                End = _kovanStation.StationName,
+                StartTime = new DateTime(2019, 01, 31, 8, 00, 00)
+            };
+            var path = dijkstraSearch.FillShortestPath(_stations, option);
+
+            var expected = new List<Station>
+            {
+                new Station("Kovan") {NearestToStart = _sengkangStation, MinimumCost = cost},
+                new Station("Sengkang") {NearestToStart = null, MinimumCost = 0},
+            };
+
+            path.Should().NotBeEmpty()
+                .And.HaveCount(2)
+                .And.BeEquivalentTo(expected, options => options
+                    .Including(o => o.StationName)
+                    .Including(o => o.MinimumCost)
+                    .Including(a => a.NearestToStart));
+        }
+
+        [Test]
+        public void Scenario_User_Journey_Needs_Interchange_Costs_15_More()
+        {
+            _sengkangStation.AddLine("NE");
+            _kovanStation.AddLine("CC");
+            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
+            _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1, Length = 1 });
+            _stations = new List<Station>
+            {
+                _sengkangStation,
+                _kovanStation
+            };
+            var dijkstraSearch = new DijkstraSearch();
+            var option = new Options
+            {
+                Start = _sengkangStation.StationName,
+                End = _kovanStation.StationName,
+                StartTime = new DateTime(2019, 01, 31, 8, 00, 00)
+            };
+            var path = dijkstraSearch.FillShortestPath(_stations, option);
+
+            var expected = new List<Station>
+            {
+                new Station("Kovan") {NearestToStart = _sengkangStation, MinimumCost = 16},
+                new Station("Sengkang") {NearestToStart = null, MinimumCost = 0},
+            };
+
+            path.Should().NotBeEmpty()
+                .And.HaveCount(2)
+                .And.BeEquivalentTo(expected, options => options
+                    .Including(o => o.StationName)
+                    .Including(o => o.MinimumCost)
+                    .Including(a => a.NearestToStart));
+        }
+
+        [TestCase("DT")]
+        [TestCase("CG")]
+        [TestCase("CE")]
+        public void Scenario_User_Cant_Take_DT_CG_CE_Lines_At_Night(string line)
+        {
+            _sengkangStation.AddLine(line);
+            _kovanStation.AddLine(line);
+            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
+            _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1, Length = 1 });
+            _stations = new List<Station>
+            {
+                _sengkangStation,
+                _kovanStation
+            };
+            var dijkstraSearch = new DijkstraSearch();
+            var option = new Options
+            {
+                Start = _sengkangStation.StationName,
+                End = _kovanStation.StationName,
+                StartTime = new DateTime(2019, 01, 31, 22, 00, 00)
+            };
+            var path = dijkstraSearch.FillShortestPath(_stations, option);
+
+            var expected = new List<Station>
+            {
+                new Station("Sengkang") {NearestToStart = null, MinimumCost = 0},
+                new Station("Kovan") {NearestToStart = null, MinimumCost = null},
+            };
+
+            path.Should().NotBeEmpty()
+                .And.HaveCount(2)
+                .And.BeEquivalentTo(expected, options => options
+                    .Including(o => o.StationName)
+                    .Including(o => o.MinimumCost)
+                    .Including(a => a.NearestToStart));
+        }
+
+        [TestCase("TE", 9)]
+        [TestCase("CC", 11)]
+        public void Scenario_User_Journey_On_TE_Line_At_Night_Costs_8_More(string line, int cost)
+        {
+            _sengkangStation.AddLine(line);
+            _kovanStation.AddLine(line);
+            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
+            _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1, Length = 1 });
+            _stations = new List<Station>
+            {
+                _sengkangStation,
+                _kovanStation
+            };
+            var dijkstraSearch = new DijkstraSearch();
+            var option = new Options
+            {
+                Start = _sengkangStation.StationName,
+                End = _kovanStation.StationName,
+                StartTime = new DateTime(2019, 01, 31, 16, 00, 00)
+            };
+            var path = dijkstraSearch.FillShortestPath(_stations, option);
+
+            var expected = new List<Station>
+            {
+                new Station("Kovan") {NearestToStart = _sengkangStation, MinimumCost = cost},
+                new Station("Sengkang") {NearestToStart = null, MinimumCost = 0},
+            };
+
+            path.Should().NotBeEmpty()
+                .And.HaveCount(2)
+                .And.BeEquivalentTo(expected, options => options
+                    .Including(o => o.StationName)
+                    .Including(o => o.MinimumCost)
+                    .Including(a => a.NearestToStart));
+        }
+
+        [Test]
+        public void Scenario_User_Journey_Needs_Interchange_At_Night_Costs_10_More()
+        {
+            _sengkangStation.AddLine("NE");
+            _kovanStation.AddLine("CC");
+            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
+            _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1, Length = 1 });
+            _stations = new List<Station>
+            {
+                _sengkangStation,
+                _kovanStation
+            };
+            var dijkstraSearch = new DijkstraSearch();
+            var option = new Options
+            {
+                Start = _sengkangStation.StationName,
+                End = _kovanStation.StationName,
+                StartTime = new DateTime(2019, 01, 31, 22, 00, 00)
+            };
+            var path = dijkstraSearch.FillShortestPath(_stations, option);
+
+            var expected = new List<Station>
+            {
+                new Station("Kovan") {NearestToStart = _sengkangStation, MinimumCost = 11},
+                new Station("Sengkang") {NearestToStart = null, MinimumCost = 0},
+            };
+
+            path.Should().NotBeEmpty()
+                .And.HaveCount(2)
+                .And.BeEquivalentTo(expected, options => options
+                    .Including(o => o.StationName)
+                    .Including(o => o.MinimumCost)
+                    .Including(a => a.NearestToStart));
+        }
+
+        [TestCase("DT", 9)]
+        [TestCase("TE", 9)]
+        [TestCase("NE", 11)]
+        public void Scenario_User_Journey_On_DT_And_TE_Line_At_Other_Times_Costs_8_More(string line, int cost)
+        {
+            _sengkangStation.AddLine(line);
+            _kovanStation.AddLine(line);
+            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
+            _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1, Length = 1 });
+            _stations = new List<Station>
+            {
+                _sengkangStation,
+                _kovanStation
+            };
+            var dijkstraSearch = new DijkstraSearch();
+            var option = new Options
+            {
+                Start = _sengkangStation.StationName,
+                End = _kovanStation.StationName,
+                StartTime = new DateTime(2019, 01, 31, 21, 30, 00)
+            };
+            var path = dijkstraSearch.FillShortestPath(_stations, option);
+
+            var expected = new List<Station>
+            {
+                new Station("Kovan") {NearestToStart = _sengkangStation, MinimumCost = cost},
+                new Station("Sengkang") {NearestToStart = null, MinimumCost = 0},
+            };
+
+            path.Should().NotBeEmpty()
+                .And.HaveCount(2)
+                .And.BeEquivalentTo(expected, options => options
+                    .Including(o => o.StationName)
+                    .Including(o => o.MinimumCost)
+                    .Including(a => a.NearestToStart));
+        }
+
+        [Test]
+        public void Scenario_User_Journey_Needs_Interchange_At_Other_Times_Costs_10_More()
+        {
+            _sengkangStation.AddLine("NE");
+            _kovanStation.AddLine("CC");
+            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
+            _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1, Length = 1 });
+            _stations = new List<Station>
+            {
+                _sengkangStation,
+                _kovanStation
+            };
+            var dijkstraSearch = new DijkstraSearch();
+            var option = new Options
+            {
+                Start = _sengkangStation.StationName,
+                End = _kovanStation.StationName,
+                StartTime = new DateTime(2019, 01, 31, 21, 30, 00)
+            };
+            var path = dijkstraSearch.FillShortestPath(_stations, option);
+
+            var expected = new List<Station>
+            {
+                new Station("Kovan") {NearestToStart = _sengkangStation, MinimumCost = 11},
+                new Station("Sengkang") {NearestToStart = null, MinimumCost = 0},
+            };
+
+            path.Should().NotBeEmpty()
+                .And.HaveCount(2)
+                .And.BeEquivalentTo(expected, options => options
+                    .Including(o => o.StationName)
+                    .Including(o => o.MinimumCost)
+                    .Including(a => a.NearestToStart));
+        }
+
     }
 }

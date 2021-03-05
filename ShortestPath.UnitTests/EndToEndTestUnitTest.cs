@@ -29,7 +29,11 @@ namespace ShortestPath.UnitTests
             var end = new Station("Bishan");
 
             ISearchAlgorithm algorithm = new DijkstraSearch();
-            var directionService = new DirectionService(algorithm, start, end);
+            var directionService = new DirectionService(algorithm, new Options
+            {
+                Start = start.StationName,
+                End = end.StationName
+            });
             var routeInfo = directionService.PrepareRouteInfoFrom(map);
 
             Assert.IsTrue(routeInfo.JourneyTitle.Contains(start.StationName), $"Was : {start.StationName}");

@@ -10,7 +10,9 @@ namespace ShortestPath.IntegrationTest
         {
             Assert.DoesNotThrow(() =>
             {
-                Program.Main(new[] { "--start=Ubi", "--end=Kovan", "--csvpath=../../../StationMap.csv" });
+                var start = "Expo";
+                var end = "Tampines";
+                Program.Main(new[] { $"--start={start}", $"--end={end}", "--csvpath=../../../StationMap.csv" });
             });
         }
     }

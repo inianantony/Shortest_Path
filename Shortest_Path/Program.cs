@@ -30,7 +30,13 @@ namespace Shortest_Path
         private static RouteInfo GetRoute(Map map, Options option)
         {
             ISearchAlgorithm algorithm = new DijkstraSearch();
-            var directionService = new DirectionService(algorithm, option.StartStation, option.EndStation);
+            Station start = option.StartStation;
+            Station end = option.EndStation;
+            var directionService = new DirectionService(algorithm, new Options
+            {
+                Start = start.StationName,
+                End = end.StationName
+            });
             return directionService.PrepareRouteInfoFrom(map);
         }
 

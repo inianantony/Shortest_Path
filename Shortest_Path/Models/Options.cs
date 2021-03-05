@@ -16,6 +16,14 @@ namespace Shortest_Path.Models
 
         public Station StartStation => new Station(Start);
         public Station EndStation => new Station(End);
+        public DateTime StartTime { get; set; }
+
+        public Options()
+        {
+            JourneyTime = new JourneyTime(this);
+        }
+
+        public JourneyTime JourneyTime;
 
         public static Options GetInputOptions(string[] args)
         {
@@ -40,7 +48,7 @@ namespace Shortest_Path.Models
 
         public void ValidateStations(Map map)
         {
-            if (!map.Stations.Exists(a=>a.IsSameAs(Start)))
+            if (!map.Stations.Exists(a => a.IsSameAs(Start)))
             {
                 throw new Exception("Invalid Start! Program Terminates!");
             }

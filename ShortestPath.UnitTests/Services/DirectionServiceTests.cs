@@ -27,10 +27,11 @@ namespace ShortestPath.UnitTests.Services
             _bishanStation = new Station("Bishan");
 
             _algorithm = new Mock<ISearchAlgorithm>();
+            Station startStation = It.IsAny<Station>();
+            Station endStation = It.IsAny<Station>();
             _algorithm.Setup(a => a.FillShortestPath(
                 It.IsAny<List<Station>>(),
-                It.IsAny<Station>(),
-                It.IsAny<Station>())).Returns(new List<Station>
+                It.IsAny<Options>())).Returns(new List<Station>
             {
                 _kovanStation,
                 _sengkangStation
@@ -42,7 +43,11 @@ namespace ShortestPath.UnitTests.Services
         {
             _kovanStation.NearestToStart = _sengkangStation;
 
-            var direction = new DirectionService(_algorithm.Object, _sengkangStation, _sengkangStation);
+            var direction = new DirectionService(_algorithm.Object, new Options
+            {
+                Start = _sengkangStation.StationName,
+                End = _sengkangStation.StationName
+            });
             var routeInfo = direction.PrepareRouteInfoFrom(new Map());
 
             routeInfo.Journey.Should().BeEmpty()
@@ -56,7 +61,11 @@ namespace ShortestPath.UnitTests.Services
             _kovanStation.AddLine("NE");
             _sengkangStation.AddLine("NE");
 
-            var direction = new DirectionService(_algorithm.Object, _sengkangStation, _kovanStation);
+            var direction = new DirectionService(_algorithm.Object, new Options
+            {
+                Start = _sengkangStation.StationName,
+                End = _kovanStation.StationName
+            });
             var routeInfo = direction.PrepareRouteInfoFrom(new Map());
 
             routeInfo.Journey.Should().NotBeEmpty()
@@ -79,7 +88,9 @@ namespace ShortestPath.UnitTests.Services
             _harborStation.AddLine("NE");
             _harborStation.AddLine("CC");
 
-            _algorithm.Setup(a => a.FillShortestPath(It.IsAny<List<Station>>(), It.IsAny<Station>(), It.IsAny<Station>()))
+            Station startStation = It.IsAny<Station>();
+            Station endStation = It.IsAny<Station>();
+            _algorithm.Setup(a => a.FillShortestPath(It.IsAny<List<Station>>(), It.IsAny<Options>()))
                 .Returns(new List<Station>
             {
                 _harborStation,
@@ -88,7 +99,11 @@ namespace ShortestPath.UnitTests.Services
                 _sengkangStation,
             });
 
-            var direction = new DirectionService(_algorithm.Object, _sengkangStation, _harborStation);
+            var direction = new DirectionService(_algorithm.Object, new Options
+            {
+                Start = _sengkangStation.StationName,
+                End = _harborStation.StationName
+            });
             var routeInfo = direction.PrepareRouteInfoFrom(new Map());
 
             routeInfo.Journey.Should().NotBeEmpty()

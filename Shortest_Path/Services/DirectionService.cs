@@ -10,17 +10,20 @@ namespace Shortest_Path.Services
         private readonly ISearchAlgorithm _searchAlgorithm;
         private readonly Station _start;
         private readonly Station _end;
+        private Options _option;
 
-        public DirectionService(ISearchAlgorithm searchAlgorithm, Station start, Station end)
+        public DirectionService(ISearchAlgorithm searchAlgorithm, Options options)
         {
             _searchAlgorithm = searchAlgorithm;
-            _start = start;
-            _end = end;
+            _start = options.StartStation;
+            _end = options.EndStation;
+            _option = options;
         }
 
         public RouteInfo PrepareRouteInfoFrom(Map map)
         {
-            var mappedStations = _searchAlgorithm.FillShortestPath(map.Stations, _start, _end);
+            var options = new Options{Start = _start.StationName, End = _end.StationName};
+            var mappedStations = _searchAlgorithm.FillShortestPath(map.Stations, options);
 
             var shortestPath = new List<Station>();
             var end = mappedStations.First(a => a.IsSameAs(_end));
