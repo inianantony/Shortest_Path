@@ -10,8 +10,7 @@ namespace Shortest_Path
     public class Program
     {
         private static IPrinter _printer;
-
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             _printer = new ConsolePrinter();
 
