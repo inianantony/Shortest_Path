@@ -11,7 +11,7 @@ namespace Shortest_Path
         public Dictionary<string, List<Station>> MrtLines { get; private set; }
 
 
-    public Map()
+        public Map()
         {
             Stations = new List<Station>();
         }

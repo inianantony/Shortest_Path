@@ -9,8 +9,12 @@ namespace Shortest_Path
 {
     public class Program
     {
+        private static IPrinter _printer;
+
         static void Main(string[] args)
         {
+            _printer = new ConsolePrinter();
+
             var option = Options.GetOptions(args);
 
             var rawRecords = ReadRawStationData(option);
@@ -37,11 +41,7 @@ namespace Shortest_Path
 
         private static void PrintTheJourney(RouteInfo routeInfo)
         {
-            IPrinter printer = new ConsolePrinter(routeInfo);
-            printer.PrintJourneyTitle();
-            printer.PrintStations();
-            printer.PrintRoute();
-            printer.PrintJourney();
+            _printer.With(routeInfo).DisplayRoutes();
         }
     }
 }

@@ -12,9 +12,9 @@ namespace Shortest_Path.Mapper
             foreach (var rawStationData in rawRecords)
             {
                 var station = new Station(rawStationData.StationName);
-                if (stations.Exists(a => a.StationName == rawStationData.StationName))
+                if (stations.Exists(a => a.SameStation(rawStationData.StationName)))
                 {
-                    station = stations.First(a => a.StationName == rawStationData.StationName);
+                    station = stations.First(a => a.SameStation(rawStationData.StationName));
                 }
                 else
                 {
@@ -32,7 +32,7 @@ namespace Shortest_Path.Mapper
         {
             return rawRecords.GroupBy(
                     a => a.Line,
-                    b => stations.First(c => c.StationName.Equals(b.StationName)))
+                    b => stations.First(c => c.SameStation(b.StationName)))
                 .ToDictionary(
                     a => a.Key,
                     b => b.ToList());

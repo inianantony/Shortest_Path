@@ -19,54 +19,23 @@ namespace Shortest_Path.Models
 
         public static Options GetOptions(string[] args)
         {
-            string start = string.Empty;
-            string end = string.Empty;
-            string csvPath = string.Empty;
-            Parser.Default.ParseArguments<Options>(args)
-                .WithParsed(o =>
-                {
-                    if (!string.IsNullOrEmpty(o.Start))
-                        start = o.Start;
-                    else
-                    {
-                        Console.WriteLine($"Enter the Starting Station");
-                        start = Console.ReadLine();
-                    }
+            var options = new Options();
+            Parser.Default.ParseArguments<Options>(args).WithParsed(o => options = o);
+            options.Validate();
+            return options;
+        }
 
-                    if (!string.IsNullOrEmpty(o.End))
-                        end = o.End;
-                    else
-                    {
-                        Console.WriteLine($"Enter the destination Station");
-                        end = Console.ReadLine();
-                    }
-
-                    if (!string.IsNullOrEmpty(o.CsvPath))
-                        csvPath = o.CsvPath;
-                    else
-                    {
-                        Console.WriteLine($"Enter the destination Station");
-                        csvPath = Console.ReadLine();
-                    }
-                });
-            if (string.IsNullOrEmpty(start) || string.IsNullOrEmpty(end))
+        private void Validate()
+        {
+            if (string.IsNullOrEmpty(Start) || string.IsNullOrEmpty(End))
             {
                 throw new Exception("Invalid Start or destination! Program Terminates!");
             }
 
-            if (string.IsNullOrEmpty(csvPath))
+            if (string.IsNullOrEmpty(CsvPath))
             {
                 throw new Exception("Invalid CSV Path! Program Terminates!");
             }
-
-            var option = new Options
-            {
-                Start = start,
-                End = end,
-                CsvPath = csvPath
-            };
-
-            return option;
         }
     }
 }
