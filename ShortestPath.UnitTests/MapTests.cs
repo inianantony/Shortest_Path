@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ExpectedObjects;
+using FluentAssertions;
 using NUnit.Framework;
 using Shortest_Path;
 using Shortest_Path.Models;
@@ -13,36 +14,32 @@ namespace ShortestPath.UnitTests
         [Test]
         public void LinkStations_Should_Linking_Two_Stations()
         {
-            var stations = new List<Station>();
-            var sengKangStation = new Station("Sengkang");
-
-            var kovanStation = new Station("Kovan");
-
-            stations.Add(sengKangStation);
-            stations.Add(kovanStation);
-
-            var neLine = new Dictionary<string, List<Station>>
+            //Arrange
+            var sengkang = "Sengkang";
+            var kovan = "Kovan";
+            var rawRecords = new List<RawStationData>
             {
-                {"NE", new List<Station> { sengKangStation, kovanStation}},
-            };
-            var expectedConnection = new List<List<Edge>>
-            {
-                new List<Edge>
-                {
-                    new Edge {ConnectedStation = kovanStation, Cost = 1, Length = 1}
-                },
-                new List<Edge>
-                {
-                    new Edge {ConnectedStation = sengKangStation, Cost = 1, Length = 1}
-                }
+                new RawStationData {StationCode = "NE1", StationName = sengkang, OpeningDate = string.Empty},
+                new RawStationData {StationCode = "NE2", StationName = kovan, OpeningDate = string.Empty},
             };
 
             //Act
-            var map = new Map().LinkStations(stations, neLine);
+            var map = new Map(rawRecords).LinkStations();
 
             //Assert
+            var expectedConnection = new List<List<Edge>>
+            {
+                new List<Edge> {new Edge {ConnectedStation = map.Stations.First(a=>a.IsSameAs(kovan)), Cost = 1, Length = 1}},
+                new List<Edge> {new Edge {ConnectedStation = map.Stations.First(a=>a.IsSameAs(sengkang)), Cost = 1, Length = 1}}
+            };
             var actualConnections = map.Stations.Select(a => a.Connections).ToList();
-            expectedConnection.ToExpectedObject().ShouldMatch(actualConnections);
+            actualConnections.Should().NotBeEmpty()
+                .And.HaveCount(2)
+                .And.BeEquivalentTo(expectedConnection, options => options
+                    .WithStrictOrdering()
+                    .IgnoringCyclicReferences()
+                    .ExcludingMissingMembers()
+                    .ExcludingNestedObjects());
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Shortest_Path.Models
         public string StationName { get; }
         public List<string> Lines { get; }
         public List<string> StationCodes { get; }
-        public List<Edge> Connections { get; private set; }
+        public List<Edge> Connections { get; set; }
         public Station NearestToStart { get; set; }
         public double? MinimumCost { get; set; }
         public bool Visited { get; set; }
@@ -47,7 +47,7 @@ namespace Shortest_Path.Models
             foreach (var line in mrtLines)
             {
                 var nearbyIndices = GetNearbyStationIndices(line);
-                nearbyStations.AddRange(nearbyIndices.Select(a => stations.First(b => b.SameStation(line.Value[a]))).ToList());
+                nearbyStations.AddRange(nearbyIndices.Select(a => stations.First(b => b.IsSameAs(line.Value[a]))).ToList());
             }
 
             Connections = nearbyStations.Distinct().Select(a => new Edge { ConnectedStation = a, Cost = 1, Length = 1 }).ToList();
@@ -60,7 +60,7 @@ namespace Shortest_Path.Models
             var nearbyIndices = new List<int>();
             for (var i = 0; i < line.Value.Count; i++)
             {
-                if (!SameStation(line.Value[i])) continue;
+                if (!IsSameAs(line.Value[i])) continue;
 
                 var firstStation = i == 0;
                 var lastStation = i == line.Value.Count - 1;
@@ -82,12 +82,12 @@ namespace Shortest_Path.Models
             return nearbyIndices;
         }
 
-        public bool SameStation(string stationName)
+        public bool IsSameAs(string stationName)
         {
             return StationName == stationName;
         }
 
-        public bool SameStation(Station station)
+        public bool IsSameAs(Station station)
         {
             return StationName == station.StationName;
         }

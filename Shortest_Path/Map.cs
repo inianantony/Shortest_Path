@@ -23,13 +23,6 @@ namespace Shortest_Path
             MrtLines = rawStationConvertor.GroupStationsByLines(rawRecords, Stations);
         }
 
-        public Map LinkStations(List<Station> stations, Dictionary<string, List<Station>> mrtLines)
-        {
-            stations.ForEach(a => a.ConnectNearByStations(stations, mrtLines));
-            Stations = stations;
-            return this;
-        }
-
         public Map LinkStations()
         {
             Stations.ForEach(a => a.ConnectNearByStations(Stations, MrtLines));

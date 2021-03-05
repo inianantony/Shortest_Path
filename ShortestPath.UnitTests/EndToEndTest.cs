@@ -22,7 +22,7 @@ namespace ShortestPath.UnitTests
             var stations = rawStationConvertor.Convert(rawRecords);
             var mrtLines = rawStationConvertor.GroupStationsByLines(rawRecords, stations);
 
-            var map = new Map().LinkStations(stations, mrtLines);
+            var map = new Map(rawRecords).LinkStations();
 
             var start = new Station("SengKang");
             var end = new Station("Bishan");

@@ -8,7 +8,7 @@ namespace Shortest_Path.Algorithm
     {
         public List<Station> FillShortestPath(List<Station> stations, Station startStation, Station endStation)
         {
-            var start = stations.First(a => a.SameStation(startStation));
+            var start = stations.First(a => a.IsSameAs(startStation));
             start.MinimumCost = 0;
             var priorityQueue = new List<Station> { start };
             do
