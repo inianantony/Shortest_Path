@@ -18,18 +18,24 @@ namespace Shortest_Path
 
             var rawRecords = ReadRawStationData(option);
 
-            var routeInfo = GetRoute(rawRecords, option);
+            var map = GetMap(rawRecords);
+
+            var routeInfo = GetRoute(map, option);
 
             PrintTheJourney(routeInfo);
         }
 
-        private static RouteInfo GetRoute(List<RawStationData> rawRecords, Options option)
+        private static RouteInfo GetRoute(Map map, Options option)
         {
-            var map = new Map(rawRecords).LinkStations();
-
             ISearchAlgorithm algorithm = new DijkstraSearch();
             var directionService = new DirectionService(algorithm, option.StartStation, option.EndStation);
             return directionService.PrepareRouteInfoFrom(map);
+        }
+
+        private static Map GetMap(List<RawStationData> rawRecords)
+        {
+            var map = new Map(rawRecords).LinkStations();
+            return map;
         }
 
         private static List<RawStationData> ReadRawStationData(Options options)
