@@ -21,7 +21,7 @@ namespace Shortest_Path.Algorithm.CostCalculator
             var isNight = option.JourneyTime.IsNight();
             var isNonPeak = option.JourneyTime.IsNonPeak();
             var interchange = !commonStations.Any();
-            return (isNonPeak && !interchange && !isNight && !isInDtTe && !option.JourneyTime.IsDisabled ? 10 : 0) + _inner.GetCost(option, cnn, station);
+            return (isNonPeak && !interchange && !isNight && !isInDtTe && !option.JourneyTime.IsDisabled() ? 10 : 0) + _inner.GetCost(option, cnn, station);
         }
     }
 }

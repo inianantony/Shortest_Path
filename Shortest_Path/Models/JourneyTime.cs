@@ -4,7 +4,7 @@ namespace Shortest_Path.Models
 {
     public class JourneyTime
     {
-        private readonly Options _options;
+        private Options _options;
         private bool _morningPeak;
         private bool _eveningPeak;
         private bool _night;
@@ -15,7 +15,10 @@ namespace Shortest_Path.Models
             _options = options;
         }
 
-        public bool IsDisabled => _options.StartTime == DateTime.MinValue;
+        public bool IsDisabled()
+        {
+            return _options.StartTime == DateTime.MinValue;
+        }
 
         public bool IsPeak()
         {

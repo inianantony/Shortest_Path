@@ -17,7 +17,7 @@ namespace Shortest_Path.Algorithm.CostCalculator
             var commonStations = cnn.ConnectedStation.Lines.Intersect(station.Lines).ToList();
             var isNight = option.JourneyTime.IsNight();
             var interchange = !commonStations.Any();
-            return (isNight && interchange && !option.JourneyTime.IsDisabled ? 10 : 0) + _inner.GetCost(option, cnn, station);
+            return (isNight && interchange && !option.JourneyTime.IsDisabled() ? 10 : 0) + _inner.GetCost(option, cnn, station);
         }
     }
 }

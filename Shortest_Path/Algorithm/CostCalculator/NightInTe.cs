@@ -18,7 +18,7 @@ namespace Shortest_Path.Algorithm.CostCalculator
             var getLies = cnn.ConnectedStation.Lines.Union(station.Lines).ToList();
             var isInTe = getLies.Intersect(new List<string> { "TE" }).Any();
             var isNight = option.JourneyTime.IsNight();
-            return (isNight && isInTe && !option.JourneyTime.IsDisabled ? 8 : 0) + _inner.GetCost(option, cnn, station);
+            return (isNight && isInTe && !option.JourneyTime.IsDisabled() ? 8 : 0) + _inner.GetCost(option, cnn, station);
         }
     }
 }

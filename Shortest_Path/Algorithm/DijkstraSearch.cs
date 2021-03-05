@@ -60,13 +60,14 @@ namespace Shortest_Path.Algorithm
         }
         private static bool IsLineClosed(Options option, Edge cnn, Station station)
         {
-            if (option.JourneyTime.IsDisabled) return false;
+            if (option.JourneyTime.IsDisabled()) return false;
 
-            var getLies = cnn.ConnectedStation.Lines.Union(station.Lines).ToList();
+            var getLies = cnn.ConnectedStation.Lines.Intersect(station.Lines).ToList();
             var isInDtCgCe = getLies.Intersect(new List<string> { "DT", "CG", "CE" }).Any();
             var isNight = option.JourneyTime.IsNight();
+            var onlyDtCgCeAvailable = cnn.ConnectedStation.Lines.Count ==1 && cnn.ConnectedStation.Lines.Intersect(new List<string> { "DT", "CG", "CE" }).Any();
 
-            return isNight && isInDtCgCe;
+            return isNight && (isInDtCgCe || onlyDtCgCeAvailable);
         }
     }
 }

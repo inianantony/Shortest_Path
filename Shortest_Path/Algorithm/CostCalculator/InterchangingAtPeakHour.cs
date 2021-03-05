@@ -17,7 +17,7 @@ namespace Shortest_Path.Algorithm.CostCalculator
             var commonStations = cnn.ConnectedStation.Lines.Intersect(station.Lines).ToList();
             var isPeakHour = option.JourneyTime.IsPeak();
             var interchange = !commonStations.Any();
-            return (interchange && isPeakHour && !option.JourneyTime.IsDisabled ? 15 : 0) + _inner.GetCost(option, cnn, station);
+            return (interchange && isPeakHour && !option.JourneyTime.IsDisabled() ? 15 : 0) + _inner.GetCost(option, cnn, station);
         }
     }
 }

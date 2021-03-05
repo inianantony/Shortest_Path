@@ -8,28 +8,26 @@ namespace Shortest_Path.Services
     public class DirectionService
     {
         private readonly ISearchAlgorithm _searchAlgorithm;
-        private readonly Station _start;
-        private readonly Station _end;
+        private readonly Options _options;
 
         public DirectionService(ISearchAlgorithm searchAlgorithm, Options options)
         {
             _searchAlgorithm = searchAlgorithm;
-            _start = options.StartStation;
-            _end = options.EndStation;
+            _options = options;
         }
 
         public RouteInfo PrepareRouteInfoFrom(Map map)
         {
-            var options = new Options{Start = _start.StationName, End = _end.StationName};
-            var mappedStations = _searchAlgorithm.FillShortestPath(map.Stations, options);
+            var mappedStations = _searchAlgorithm.FillShortestPath(map.Stations, _options);
 
             var shortestPath = new List<Station>();
-            var end = mappedStations.First(a => a.IsSameAs(_end));
+            var end = mappedStations.First(a => a.IsSameAs(_options.EndStation.StationName));
             shortestPath.Add(end);
             BuildShortestPath(shortestPath, end);
             shortestPath.Reverse();
 
-            return new RouteInfo(shortestPath, _start, end);
+            var start = mappedStations.First(a => a.IsSameAs(_options.StartStation.StationName));
+            return new RouteInfo(shortestPath, start, end);
         }
 
         private void BuildShortestPath(List<Station> stations, Station station)

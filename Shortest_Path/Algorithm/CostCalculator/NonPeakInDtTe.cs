@@ -20,7 +20,7 @@ namespace Shortest_Path.Algorithm.CostCalculator
             var isInDtTe = getLies.Intersect(new List<string> { "DT", "TE" }).Any();
             var isNight = option.JourneyTime.IsNight();
             var isNonPeak = option.JourneyTime.IsNonPeak();
-            return (isNonPeak && !isNight && isInDtTe && !option.JourneyTime.IsDisabled ? 8 : 0) + _inner.GetCost(option, cnn, station);
+            return (isNonPeak && !isNight && isInDtTe && !option.JourneyTime.IsDisabled() ? 8 : 0) + _inner.GetCost(option, cnn, station);
         }
     }
 }
