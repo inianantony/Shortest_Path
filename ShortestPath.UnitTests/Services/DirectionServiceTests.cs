@@ -2,12 +2,11 @@ using System.Collections.Generic;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
-using Shortest_Path;
 using Shortest_Path.Algorithm;
 using Shortest_Path.Models;
 using Shortest_Path.Services;
 
-namespace ShortestPath.UnitTests
+namespace ShortestPath.UnitTests.Services
 {
     public class DirectionServiceTests
     {

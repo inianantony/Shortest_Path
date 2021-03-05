@@ -3,7 +3,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using Shortest_Path.Models;
 
-namespace ShortestPath.UnitTests.ModelsTest
+namespace ShortestPath.UnitTests.Models
 {
     class OptionsTest
     {

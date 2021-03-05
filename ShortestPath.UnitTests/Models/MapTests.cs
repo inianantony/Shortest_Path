@@ -1,12 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
-using ExpectedObjects;
 using FluentAssertions;
 using NUnit.Framework;
-using Shortest_Path;
 using Shortest_Path.Models;
 
-namespace ShortestPath.UnitTests
+namespace ShortestPath.UnitTests.Models
 {
     [TestFixture]
     public class MapTests

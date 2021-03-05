@@ -11,7 +11,7 @@ using Shortest_Path.Services;
 namespace ShortestPath.UnitTests
 {
     [TestFixture]
-    public class EndToEndTest
+    public class EndToEndTestUnitTest
     {
         [Test]
         public void GetRoute_End_To_End_Test()
