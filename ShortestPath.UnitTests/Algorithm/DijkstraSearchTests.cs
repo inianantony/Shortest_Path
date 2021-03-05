@@ -10,9 +10,8 @@ namespace ShortestPath.UnitTests.Algorithm
     {
         private Station _sengkangStation;
         private Station _kovanStation;
-        private Station _HarborStation;
-        private Station _SerangoonStation;
-        private Station _BishanStation;
+        private Station _harborStation;
+        private Station _bishanStation;
         private List<Station> _stations;
 
         [SetUp]
@@ -20,13 +19,12 @@ namespace ShortestPath.UnitTests.Algorithm
         {
             _sengkangStation = new Station("Sengkang");
             _kovanStation = new Station("Kovan");
-            _HarborStation = new Station("Harbor");
-            _SerangoonStation = new Station("Serangoon");
-            _BishanStation = new Station("Bishan");
+            _harborStation = new Station("Harbor");
+            _bishanStation = new Station("Bishan");
         }
 
         [Test]
-        public void Given_2_Stations_NearestToStart_From_EndStation_ShouldBe_Begining_Station()
+        public void Given_2_Stations_The_Begining_Station_Should_Be_The_Nearest_Station_For_End_Station()
         {
             _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
             _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1, Length = 1 });
@@ -57,17 +55,17 @@ namespace ShortestPath.UnitTests.Algorithm
         {
             _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
             _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1, Length = 1 });
-            _kovanStation.Connections.Add(new Edge { ConnectedStation = _HarborStation, Cost = 1, Length = 1 });
-            _HarborStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
+            _kovanStation.Connections.Add(new Edge { ConnectedStation = _harborStation, Cost = 1, Length = 1 });
+            _harborStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
 
             _stations = new List<Station>
             {
                 _sengkangStation,
                 _kovanStation,
-                _HarborStation
+                _harborStation
             };
             var dijkstraSearch = new DijkstraSearch();
-            var path = dijkstraSearch.FillShortestPath(_stations, _sengkangStation, _HarborStation);
+            var path = dijkstraSearch.FillShortestPath(_stations, _sengkangStation, _harborStation);
 
             var expected = new List<Station>
             {
@@ -87,29 +85,29 @@ namespace ShortestPath.UnitTests.Algorithm
         [Test]
         public void Scenario_4_Stations_Where_Start_And_End_Is_Same_Then_FirstRouteReached_WillBe_Returned()
         {
-            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _BishanStation, Cost = 1, Length = 1 });
-            _BishanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1, Length = 1 });
-            _BishanStation.Connections.Add(new Edge { ConnectedStation = _HarborStation, Cost = 1, Length = 1 });
-            _HarborStation.Connections.Add(new Edge { ConnectedStation = _BishanStation, Cost = 1, Length = 1 });
+            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _bishanStation, Cost = 1, Length = 1 });
+            _bishanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1, Length = 1 });
+            _bishanStation.Connections.Add(new Edge { ConnectedStation = _harborStation, Cost = 1, Length = 1 });
+            _harborStation.Connections.Add(new Edge { ConnectedStation = _bishanStation, Cost = 1, Length = 1 });
 
             _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
             _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1, Length = 1 });
-            _kovanStation.Connections.Add(new Edge { ConnectedStation = _HarborStation, Cost = 1, Length = 1 });
-            _HarborStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
+            _kovanStation.Connections.Add(new Edge { ConnectedStation = _harborStation, Cost = 1, Length = 1 });
+            _harborStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
 
             _stations = new List<Station>
             {
                 _sengkangStation,
                 _kovanStation,
-                _BishanStation,
-                _HarborStation
+                _bishanStation,
+                _harborStation
             };
             var dijkstraSearch = new DijkstraSearch();
-            var path = dijkstraSearch.FillShortestPath(_stations, _sengkangStation, _HarborStation);
+            var path = dijkstraSearch.FillShortestPath(_stations, _sengkangStation, _harborStation);
 
             var expected = new List<Station>
             {
-                new Station("Harbor") {NearestToStart = _BishanStation, MinimumCost = 2},
+                new Station("Harbor") {NearestToStart = _bishanStation, MinimumCost = 2},
                 new Station("Bishan") {NearestToStart = _sengkangStation, MinimumCost = 1},
                 new Station("Kovan") {NearestToStart = _sengkangStation, MinimumCost = 1},
                 new Station("Sengkang") {NearestToStart = null, MinimumCost = 0},
@@ -126,25 +124,25 @@ namespace ShortestPath.UnitTests.Algorithm
         [Test]
         public void Scenario_4_Stations_Where_Start_And_End_Is_Same_Then_LowestCostRouteReached_WillBe_Returned()
         {
-            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _BishanStation, Cost = 1, Length = 1 });
-            _BishanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1, Length = 1 });
-            _BishanStation.Connections.Add(new Edge { ConnectedStation = _HarborStation, Cost = 1, Length = 1 });
-            _HarborStation.Connections.Add(new Edge { ConnectedStation = _BishanStation, Cost = 1, Length = 1 });
+            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _bishanStation, Cost = 1, Length = 1 });
+            _bishanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1, Length = 1 });
+            _bishanStation.Connections.Add(new Edge { ConnectedStation = _harborStation, Cost = 1, Length = 1 });
+            _harborStation.Connections.Add(new Edge { ConnectedStation = _bishanStation, Cost = 1, Length = 1 });
 
             _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
             _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1, Length = 1 });
-            _kovanStation.Connections.Add(new Edge { ConnectedStation = _HarborStation, Cost = 0.5, Length = 1 });
-            _HarborStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 0.5, Length = 1 });
+            _kovanStation.Connections.Add(new Edge { ConnectedStation = _harborStation, Cost = 0.5, Length = 1 });
+            _harborStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 0.5, Length = 1 });
 
             _stations = new List<Station>
             {
                 _sengkangStation,
                 _kovanStation,
-                _BishanStation,
-                _HarborStation
+                _bishanStation,
+                _harborStation
             };
             var dijkstraSearch = new DijkstraSearch();
-            var path = dijkstraSearch.FillShortestPath(_stations, _sengkangStation, _HarborStation);
+            var path = dijkstraSearch.FillShortestPath(_stations, _sengkangStation, _harborStation);
 
             var expected = new List<Station>
             {

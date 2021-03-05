@@ -5,7 +5,7 @@ using Shortest_Path.Models;
 
 namespace ShortestPath.UnitTests.Models
 {
-    class OptionsTest
+    class OptionsTests
     {
         [Test]
         public void GetOptions_Should_GetParsedOptions()

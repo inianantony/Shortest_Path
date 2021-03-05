@@ -9,9 +9,8 @@ namespace ShortestPath.UnitTests.Models
     {
         private Station _sengkangStation;
         private Station _kovanStation;
-        private Station _HarborStation;
-        private Station _SerangoonStation;
-        private Station _BishanStation;
+        private Station _serangoonStation;
+        private Station _bishanStation;
         private List<Station> _stations;
 
         [SetUp]
@@ -25,17 +24,15 @@ namespace ShortestPath.UnitTests.Models
             _kovanStation.AddStationCode("NE2");
             _kovanStation.AddLine("NE");
 
-            _HarborStation = new Station("Harbor");
+            _serangoonStation = new Station("Serangoon");
+            _serangoonStation.AddStationCode("NE3");
+            _serangoonStation.AddLine("NE");
+            _serangoonStation.AddStationCode("CC1");
+            _serangoonStation.AddLine("CC");
 
-            _SerangoonStation = new Station("Serangoon");
-            _SerangoonStation.AddStationCode("NE3");
-            _SerangoonStation.AddLine("NE");
-            _SerangoonStation.AddStationCode("CC1");
-            _SerangoonStation.AddLine("CC");
-
-            _BishanStation = new Station("Bishan");
-            _BishanStation.AddStationCode("CC2");
-            _BishanStation.AddLine("CC");
+            _bishanStation = new Station("Bishan");
+            _bishanStation.AddStationCode("CC2");
+            _bishanStation.AddLine("CC");
             _stations = new List<Station>
             {
                 _sengkangStation,
@@ -71,10 +68,10 @@ namespace ShortestPath.UnitTests.Models
             {
                 _sengkangStation,
                 _kovanStation,
-                _SerangoonStation,
-                _BishanStation
+                _serangoonStation,
+                _bishanStation
             };
-            var routeInfo = new RouteInfo(_stations, _sengkangStation, _BishanStation);
+            var routeInfo = new RouteInfo(_stations, _sengkangStation, _bishanStation);
             Assert.AreEqual("Route : ('NE1', 'NE2', 'NE3', 'CC1', 'CC2')", routeInfo.Route);
         }
 
@@ -98,17 +95,17 @@ namespace ShortestPath.UnitTests.Models
             {
                 _sengkangStation,
                 _kovanStation,
-                _SerangoonStation,
-                _BishanStation
+                _serangoonStation,
+                _bishanStation
             };
-            var routeInfo = new RouteInfo(_stations, _sengkangStation, _BishanStation);
+            var routeInfo = new RouteInfo(_stations, _sengkangStation, _bishanStation);
 
             var expected = new List<string>
             {
                 $"Take NE line from {_sengkangStation.StationName} to {_kovanStation.StationName}",
-                $"Take NE line from {_kovanStation.StationName} to {_SerangoonStation.StationName}",
+                $"Take NE line from {_kovanStation.StationName} to {_serangoonStation.StationName}",
                 "Change from NE line to CC line",
-                $"Take CC line from {_SerangoonStation.StationName} to {_BishanStation.StationName}",
+                $"Take CC line from {_serangoonStation.StationName} to {_bishanStation.StationName}",
             };
             routeInfo.Journey.Should().NotBeEmpty()
                 .And.HaveCount(4)

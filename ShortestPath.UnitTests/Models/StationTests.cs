@@ -9,27 +9,16 @@ namespace ShortestPath.UnitTests.Models
     {
         private Station _sengkangStation;
         private Station _kovanStation;
-        private Station _HarborStation;
-        private Station _SerangoonStation;
-        private Station _BishanStation;
-        private List<Station> _stations;
+        private Station _serangoonStation;
+        private Station _bishanStation;
 
         [SetUp]
         public void Init()
         {
             _sengkangStation = new Station("Sengkang");
             _kovanStation = new Station("Kovan");
-            _HarborStation = new Station("Harbor");
-            _SerangoonStation = new Station("Serangoon");
-            _BishanStation = new Station("Bishan");
-            _stations = new List<Station>
-            {
-                _sengkangStation,
-                _kovanStation,
-                _SerangoonStation,
-                _HarborStation,
-                _BishanStation
-            };
+            _serangoonStation = new Station("Serangoon");
+            _bishanStation = new Station("Bishan");
         }
 
         [Test]
@@ -108,7 +97,7 @@ namespace ShortestPath.UnitTests.Models
             var connections = _sengkangStation.ConnectNearByStations(neLine).Connections;
             var expectedConnection = new List<Edge>
             {
-                new Edge{ConnectedStation = _kovanStation,Cost = 1,Length = 1}
+                new Edge {ConnectedStation = _kovanStation, Cost = 1, Length = 1}
             };
             expectedConnection.ToExpectedObject().ShouldMatch(connections);
         }
@@ -123,23 +112,23 @@ namespace ShortestPath.UnitTests.Models
             var connections = _kovanStation.ConnectNearByStations(neLine).Connections;
             var expectedConnection = new List<Edge>
             {
-                new Edge{ConnectedStation = _sengkangStation,Cost = 1,Length = 1}
+                new Edge {ConnectedStation = _sengkangStation, Cost = 1, Length = 1}
             };
             expectedConnection.ToExpectedObject().ShouldMatch(connections);
         }
 
         [Test]
-        public void ConnectNearByStations_Links_Third_Station_With_PreviousStation_And_NextStation_On_Same_Line()
+        public void ConnectNearByStations_Links_Middle_Station_With_PreviousStation_And_NextStation_On_Same_Line()
         {
             var neLine = new Dictionary<string, List<Station>>
             {
-                {"NE", new List<Station> {_sengkangStation, _SerangoonStation, _kovanStation}}
+                {"NE", new List<Station> {_sengkangStation, _serangoonStation, _kovanStation}}
             };
-            var connections = _SerangoonStation.ConnectNearByStations(neLine).Connections;
+            var connections = _serangoonStation.ConnectNearByStations(neLine).Connections;
             var expectedConnection = new List<Edge>
             {
-                new Edge{ConnectedStation = _sengkangStation,Cost = 1,Length = 1},
-                new Edge{ConnectedStation = _kovanStation,Cost = 1,Length = 1}
+                new Edge {ConnectedStation = _sengkangStation, Cost = 1, Length = 1},
+                new Edge {ConnectedStation = _kovanStation, Cost = 1, Length = 1}
             };
             expectedConnection.ToExpectedObject().ShouldMatch(connections);
         }
@@ -147,17 +136,17 @@ namespace ShortestPath.UnitTests.Models
         [Test]
         public void ConnectNearByStations_Links_All_Interchanges()
         {
-            var neLine = new Dictionary<string, List<Station>>
+            var mrtLines = new Dictionary<string, List<Station>>
             {
-                {"NE", new List<Station> {_sengkangStation, _SerangoonStation, _kovanStation}},
-                {"CC", new List<Station> {_BishanStation, _SerangoonStation}},
+                {"NE", new List<Station> {_sengkangStation, _serangoonStation, _kovanStation}},
+                {"CC", new List<Station> {_bishanStation, _serangoonStation}},
             };
-            var connections = _SerangoonStation.ConnectNearByStations(neLine).Connections;
+            var connections = _serangoonStation.ConnectNearByStations(mrtLines).Connections;
             var expectedConnection = new List<Edge>
             {
                 new Edge{ConnectedStation = _sengkangStation,Cost = 1,Length = 1},
                 new Edge{ConnectedStation = _kovanStation,Cost = 1,Length = 1},
-                new Edge{ConnectedStation = _BishanStation,Cost = 1,Length = 1},
+                new Edge{ConnectedStation = _bishanStation,Cost = 1,Length = 1},
             };
             expectedConnection.ToExpectedObject().ShouldMatch(connections);
         }

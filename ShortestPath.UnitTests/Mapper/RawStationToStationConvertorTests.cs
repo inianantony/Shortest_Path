@@ -36,23 +36,17 @@ namespace ShortestPath.UnitTests.Mapper
             //Act
             var stations = _rawStationConvertor.Convert(new List<RawStationData>
             {
-                new RawStationData
-                {
-                    StationCode = stationCode, StationName = stationName
-                }
+                new RawStationData {StationCode = stationCode, StationName = stationName}
             });
 
-            //Assert
-            Assert.AreEqual(1, stations.Count);
+            var expected = new List<Station>
+            {
+                new Station(stationName) {StationCodes = {"NE1"}, Lines = {"NE"}}
+            };
 
-            var station = stations.First();
-            Assert.AreEqual(stationName, station.StationName);
-
-            var stationCodes = new List<string> { "NE1" };
-            stationCodes.ToExpectedObject().ShouldMatch(station.StationCodes);
-
-            var lines = new List<string> { "NE" };
-            lines.ToExpectedObject().ShouldMatch(station.Lines);
+            expected.Should().NotBeEmpty()
+                .And.HaveCount(1)
+                .And.BeEquivalentTo(stations);
         }
 
         [Test]
@@ -64,14 +58,8 @@ namespace ShortestPath.UnitTests.Mapper
             //Act
             var stations = _rawStationConvertor.Convert(new List<RawStationData>
             {
-                new RawStationData
-                {
-                    StationCode = "NE1", StationName = stationName
-                },
-                new RawStationData
-                {
-                    StationCode = "CC1", StationName = stationName
-                }
+                new RawStationData {StationCode = "NE1", StationName = stationName},
+                new RawStationData {StationCode = "CC1", StationName = stationName}
             });
 
             var expected = new List<Station>
@@ -114,10 +102,13 @@ namespace ShortestPath.UnitTests.Mapper
             });
             var expected = new Dictionary<string, List<Station>>
             {
-                {"NE",new List<Station>{sengkang,serangoon}},
-                {"CC",new List<Station>{serangoon}}
+                {"NE", new List<Station> {sengkang, serangoon}},
+                {"CC", new List<Station> {serangoon}}
             };
-            expected.ToExpectedObject().ShouldMatch(mrtLines);
+
+            mrtLines.Should().NotBeEmpty()
+                .And.HaveCount(2)
+                .And.BeEquivalentTo(expected);
         }
 
     }

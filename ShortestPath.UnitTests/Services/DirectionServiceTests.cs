@@ -12,8 +12,8 @@ namespace ShortestPath.UnitTests.Services
     {
         private Station _sengkangStation;
         private Station _kovanStation;
-        private Station _HarborStation;
-        private Station _BishanStation;
+        private Station _harborStation;
+        private Station _bishanStation;
 
         private Mock<ISearchAlgorithm> _algorithm;
 
@@ -23,22 +23,24 @@ namespace ShortestPath.UnitTests.Services
         {
             _sengkangStation = new Station("Sengkang");
             _kovanStation = new Station("Kovan");
-            _HarborStation = new Station("Harbor");
-            _BishanStation = new Station("Bishan");
+            _harborStation = new Station("Harbor");
+            _bishanStation = new Station("Bishan");
 
             _algorithm = new Mock<ISearchAlgorithm>();
+            _algorithm.Setup(a => a.FillShortestPath(
+                It.IsAny<List<Station>>(),
+                It.IsAny<Station>(),
+                It.IsAny<Station>())).Returns(new List<Station>
+            {
+                _kovanStation,
+                _sengkangStation
+            });
         }
 
         [Test]
         public void PrepareRouteInfo_ShouldReturn_SingleStation_In_Plan_For_SameStations_As_StartAndEnd()
         {
             _kovanStation.NearestToStart = _sengkangStation;
-
-            _algorithm.Setup(a => a.FillShortestPath(It.IsAny<List<Station>>(), It.IsAny<Station>(), It.IsAny<Station>())).Returns(new List<Station>
-            {
-                _kovanStation,
-                _sengkangStation
-            });
 
             var direction = new DirectionService(_algorithm.Object, _sengkangStation, _sengkangStation);
             var routeInfo = direction.PrepareRouteInfoFrom(new Map());
@@ -54,12 +56,6 @@ namespace ShortestPath.UnitTests.Services
             _kovanStation.AddLine("NE");
             _sengkangStation.AddLine("NE");
 
-            _algorithm.Setup(a => a.FillShortestPath(It.IsAny<List<Station>>(), It.IsAny<Station>(), It.IsAny<Station>())).Returns(new List<Station>
-            {
-                _kovanStation,
-                _sengkangStation
-            });
-
             var direction = new DirectionService(_algorithm.Object, _sengkangStation, _kovanStation);
             var routeInfo = direction.PrepareRouteInfoFrom(new Map());
 
@@ -72,33 +68,34 @@ namespace ShortestPath.UnitTests.Services
         [Test]
         public void PrepareRouteInfo_ShouldReturn_RoutePlan_For_FourStations_In_DiamondShape()
         {
-            _HarborStation.NearestToStart = _BishanStation;
-            _BishanStation.NearestToStart = _sengkangStation;
+            _harborStation.NearestToStart = _bishanStation;
+            _bishanStation.NearestToStart = _sengkangStation;
             _kovanStation.NearestToStart = _sengkangStation;
 
             _sengkangStation.AddLine("NE");
             _sengkangStation.AddLine("CC");
-            _BishanStation.AddLine("CC");
+            _bishanStation.AddLine("CC");
             _kovanStation.AddLine("NE");
-            _HarborStation.AddLine("NE");
-            _HarborStation.AddLine("CC");
+            _harborStation.AddLine("NE");
+            _harborStation.AddLine("CC");
 
-            _algorithm.Setup(a => a.FillShortestPath(It.IsAny<List<Station>>(), It.IsAny<Station>(), It.IsAny<Station>())).Returns(new List<Station>
+            _algorithm.Setup(a => a.FillShortestPath(It.IsAny<List<Station>>(), It.IsAny<Station>(), It.IsAny<Station>()))
+                .Returns(new List<Station>
             {
-                _HarborStation,
+                _harborStation,
                 _kovanStation,
-                _BishanStation,
+                _bishanStation,
                 _sengkangStation,
             });
 
-            var direction = new DirectionService(_algorithm.Object, _sengkangStation, _HarborStation);
+            var direction = new DirectionService(_algorithm.Object, _sengkangStation, _harborStation);
             var routeInfo = direction.PrepareRouteInfoFrom(new Map());
 
             routeInfo.Journey.Should().NotBeEmpty()
                 .And.HaveCount(2)
                 .And.ContainMatch($"*{_sengkangStation.StationName}*")
-                .And.ContainMatch($"*{_BishanStation.StationName}*")
-                .And.ContainMatch($"*{_HarborStation.StationName}*");
+                .And.ContainMatch($"*{_bishanStation.StationName}*")
+                .And.ContainMatch($"*{_harborStation.StationName}*");
         }
     }
 }

@@ -1,11 +1,7 @@
 using System.Collections.Generic;
-using Moq;
 using NUnit.Framework;
-using Shortest_Path;
 using Shortest_Path.Algorithm;
-using Shortest_Path.Mapper;
 using Shortest_Path.Models;
-using Shortest_Path.Reader;
 using Shortest_Path.Services;
 
 namespace ShortestPath.UnitTests
@@ -36,9 +32,9 @@ namespace ShortestPath.UnitTests
             var directionService = new DirectionService(algorithm, start, end);
             var routeInfo = directionService.PrepareRouteInfoFrom(map);
 
-            Assert.IsNotEmpty(routeInfo.JourneyTitle);
+            Assert.IsTrue(routeInfo.JourneyTitle.Contains(start.StationName), $"Was : {start.StationName}");
             Assert.IsNotEmpty(routeInfo.Route);
-            Assert.IsNotEmpty(routeInfo.StationsTraveled);
+            Assert.IsTrue(routeInfo.StationsTraveled.Contains("4"), $"Was : {routeInfo.StationsTraveled}");
             Assert.IsNotEmpty(routeInfo.Journey);
         }
     }

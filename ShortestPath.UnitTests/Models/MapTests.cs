@@ -10,7 +10,7 @@ namespace ShortestPath.UnitTests.Models
     public class MapTests
     {
         [Test]
-        public void LinkStations_Should_Linking_Two_Stations()
+        public void LinkStations_Should_Link_Two_NearBy_Stations()
         {
             //Arrange
             var sengkang = "Sengkang";
@@ -34,10 +34,7 @@ namespace ShortestPath.UnitTests.Models
             actualConnections.Should().NotBeEmpty()
                 .And.HaveCount(2)
                 .And.BeEquivalentTo(expectedConnection, options => options
-                    .WithStrictOrdering()
-                    .IgnoringCyclicReferences()
-                    .ExcludingMissingMembers()
-                    .ExcludingNestedObjects());
+                    .WithStrictOrdering());
         }
     }
 }
