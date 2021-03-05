@@ -17,7 +17,7 @@ namespace Shortest_Path.Models
         public Station StartStation => new Station(Start);
         public Station EndStation => new Station(End);
 
-        public static Options GetOptions(string[] args)
+        public static Options GetInputOptions(string[] args)
         {
             var options = new Options();
             Parser.Default.ParseArguments<Options>(args).WithParsed(o => options = o);

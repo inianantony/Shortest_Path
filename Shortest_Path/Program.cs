@@ -14,7 +14,7 @@ namespace Shortest_Path
         {
             _printer = new ConsolePrinter();
 
-            var option = Options.GetOptions(args);
+            var option = Options.GetInputOptions(args);
 
             var rawRecords = ReadRawStationData(option);
 
