@@ -274,6 +274,43 @@ namespace ShortestPath.UnitTests.Algorithm
                     .Including(a => a.NearestToStart));
         }
 
+        [TestCase("DT")]
+        [TestCase("CG")]
+        [TestCase("CE")]
+        public void Scenario_User_Cant_InterChange_To_DT_CG_CE_Lines_At_Night(string line)
+        {
+            _sengkangStation.AddLine("NE");
+            _kovanStation.AddLine(line);
+            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
+            _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1, Length = 1 });
+            _stations = new List<Station>
+            {
+                _sengkangStation,
+                _kovanStation
+            };
+            var dijkstraSearch = new DijkstraSearch();
+            var option = new Options
+            {
+                Start = _sengkangStation.StationName,
+                End = _kovanStation.StationName,
+                StartTime = new DateTime(2019, 01, 31, 22, 00, 00)
+            };
+            var path = dijkstraSearch.FillShortestPath(_stations, option);
+
+            var expected = new List<Station>
+            {
+                new Station("Sengkang") {NearestToStart = null, MinimumCost = 0},
+                new Station("Kovan") {NearestToStart = null, MinimumCost = null},
+            };
+
+            path.Should().NotBeEmpty()
+                .And.HaveCount(2)
+                .And.BeEquivalentTo(expected, options => options
+                    .Including(o => o.StationName)
+                    .Including(o => o.MinimumCost)
+                    .Including(a => a.NearestToStart));
+        }
+
         [TestCase("TE", 9)]
         [TestCase("CC", 11)]
         public void Scenario_User_Journey_On_TE_Line_At_Night_Costs_8_More(string line, int cost)

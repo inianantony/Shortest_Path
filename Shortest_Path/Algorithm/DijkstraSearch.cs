@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Shortest_Path.Algorithm.CostCalculator;
 using Shortest_Path.Models;
 
 namespace Shortest_Path.Algorithm
@@ -22,63 +24,14 @@ namespace Shortest_Path.Algorithm
                     var connectedStation = cnn.ConnectedStation;
                     if (connectedStation.Visited)
                         continue;
+                    if (IsLineClosed(option, cnn, station))
+                        continue;
 
+                    var eachStationCost = EachStationCost(option, cnn, station);
 
-                    var addedCost = 0;
-                    if (!option.JourneyTime.IsDisabled)
+                    if (connectedStation.MinimumCost == null || station.MinimumCost + eachStationCost < connectedStation.MinimumCost)
                     {
-                        var commonStations = connectedStation.Lines.Intersect(station.Lines).ToList();
-                        var getLies = connectedStation.Lines.Union(station.Lines).ToList();
-                        var isInNeOrNs = commonStations.Intersect(new List<string> { "NE", "NS" }).Any();
-                        var isInDtCgCe = getLies.Intersect(new List<string> { "DT", "CG", "CE" }).Any();
-                        var isInDtTe = getLies.Intersect(new List<string> { "DT", "TE" }).Any();
-                        var isInTe = getLies.Intersect(new List<string> { "TE" }).Any();
-                        var isPeakHour = option.JourneyTime.IsPeak();
-                        var isNight = option.JourneyTime.IsNight();
-                        var isNonPeak = option.JourneyTime.IsNonPeak();
-                        var interchange = !commonStations.Any();
-
-                        if (isNight && isInDtCgCe)
-                        {
-                            continue;
-                        }
-                        if (isNonPeak && interchange)
-                        {
-                            addedCost = 10;
-                        }
-                        else if (isNonPeak && !isInDtTe)
-                        {
-                            addedCost = 10;
-                        }
-                        else if (isNonPeak)
-                        {
-                            addedCost = 8;
-                        }
-                        else if (isNight && interchange)
-                        {
-                            addedCost = 10;
-                        }
-                        else if (isNight && isInTe)
-                        {
-                            addedCost = 8;
-                        }
-                        else if (interchange && isPeakHour)
-                        {
-                            addedCost = 15;
-                        }
-                        else if (isInNeOrNs && isPeakHour)
-                        {
-                            addedCost = 12;
-                        }
-                        else if (!isInNeOrNs && isPeakHour)
-                        {
-                            addedCost = 10;
-                        }
-                    }
-
-                    if (connectedStation.MinimumCost == null || station.MinimumCost + cnn.Cost + addedCost < connectedStation.MinimumCost)
-                    {
-                        connectedStation.MinimumCost = station.MinimumCost + cnn.Cost + addedCost;
+                        connectedStation.MinimumCost = station.MinimumCost + eachStationCost;
                         connectedStation.NearestToStart = station;
                         if (!priorityQueue.Contains(connectedStation))
                             priorityQueue.Add(connectedStation);
@@ -90,6 +43,30 @@ namespace Shortest_Path.Algorithm
             } while (priorityQueue.Any());
 
             return stations;
+        }
+
+        private static double EachStationCost(Options option, Edge cnn, Station station)
+        {
+            var costCalculator = new InterchangingAtNonPeak(
+                new InterchangingAtNight(
+                    new InterchangingAtPeakHour(
+                        new NightInTe(
+                            new PeakHourInNeNs(
+                                new PeakHourInOtherLines(
+                                    new NonPeakInAllLines(
+                                        new NonPeakInDtTe(
+                                            new BaseCostCalculator()))))))));
+            return costCalculator.GetCost(option, cnn, station);
+        }
+        private static bool IsLineClosed(Options option, Edge cnn, Station station)
+        {
+            if (option.JourneyTime.IsDisabled) return false;
+
+            var getLies = cnn.ConnectedStation.Lines.Union(station.Lines).ToList();
+            var isInDtCgCe = getLies.Intersect(new List<string> { "DT", "CG", "CE" }).Any();
+            var isNight = option.JourneyTime.IsNight();
+
+            return isNight && isInDtCgCe;
         }
     }
 }

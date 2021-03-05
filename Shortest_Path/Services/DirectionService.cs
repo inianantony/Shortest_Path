@@ -10,14 +10,12 @@ namespace Shortest_Path.Services
         private readonly ISearchAlgorithm _searchAlgorithm;
         private readonly Station _start;
         private readonly Station _end;
-        private Options _option;
 
         public DirectionService(ISearchAlgorithm searchAlgorithm, Options options)
         {
             _searchAlgorithm = searchAlgorithm;
             _start = options.StartStation;
             _end = options.EndStation;
-            _option = options;
         }
 
         public RouteInfo PrepareRouteInfoFrom(Map map)
