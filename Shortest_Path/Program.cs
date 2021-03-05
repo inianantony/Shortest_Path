@@ -20,6 +20,8 @@ namespace Shortest_Path
 
             var map = GetMap(rawRecords);
 
+            option.ValidateStations(map);
+
             var routeInfo = GetRoute(map, option);
 
             PrintTheJourney(routeInfo);

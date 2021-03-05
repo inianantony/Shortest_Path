@@ -37,5 +37,18 @@ namespace Shortest_Path.Models
                 throw new Exception("Invalid CSV Path! Program Terminates!");
             }
         }
+
+        public void ValidateStations(Map map)
+        {
+            if (!map.Stations.Exists(a=>a.IsSameAs(Start)))
+            {
+                throw new Exception("Invalid Start! Program Terminates!");
+            }
+
+            if (!map.Stations.Exists(a => a.IsSameAs(End)))
+            {
+                throw new Exception("Invalid End! Program Terminates!");
+            }
+        }
     }
 }
