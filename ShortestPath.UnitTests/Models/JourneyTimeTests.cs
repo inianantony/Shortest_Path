@@ -52,5 +52,13 @@ namespace ShortestPath.UnitTests.Models
             var startTime = new DateTime(year, month, date, hours, minute, second);
             Assert.AreEqual(expected, new JourneyTime(new InputOption { StartTime = startTime }).IsNonPeak());
         }
+
+        [TestCase(2021, 3, 5, 21, 30, 0, true, TestName = "WeekDay Non Peak Before Night")]
+        [TestCase(2021, 3, 5, 6, 0, 0, false, TestName = "WeekDay Peak")]
+        public void IsNonPeakBeforeNight_Returns_True_After_Peak_Hour_And_Before_Night(int year, int month, int date, int hours, int minute, int second, bool expected)
+        {
+            var startTime = new DateTime(year, month, date, hours, minute, second);
+            Assert.AreEqual(expected, new JourneyTime(new InputOption { StartTime = startTime }).IsNonPeakBeforeNight());
+        }
     }
 }

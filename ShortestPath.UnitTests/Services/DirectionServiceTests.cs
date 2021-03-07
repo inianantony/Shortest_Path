@@ -27,8 +27,6 @@ namespace ShortestPath.UnitTests.Services
             _bishanStation = new Station("Bishan");
 
             _algorithm = new Mock<ISearchAlgorithm>();
-            Station startStation = It.IsAny<Station>();
-            Station endStation = It.IsAny<Station>();
             _algorithm.Setup(a => a.FillShortestPath(
                 It.IsAny<List<Station>>(),
                 It.IsAny<InputOption>())).Returns(new List<Station>
@@ -88,8 +86,6 @@ namespace ShortestPath.UnitTests.Services
             _harborStation.AddLine("NE");
             _harborStation.AddLine("CC");
 
-            Station startStation = It.IsAny<Station>();
-            Station endStation = It.IsAny<Station>();
             _algorithm.Setup(a => a.FillShortestPath(It.IsAny<List<Station>>(), It.IsAny<InputOption>()))
                 .Returns(new List<Station>
             {
