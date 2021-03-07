@@ -13,7 +13,7 @@ namespace Shortest_Path.Algorithm.CostCalculator
 
         public decimal GetCost(InputOption inputOption, Edge cnn, Station station)
         {
-            return (inputOption.JourneyTime.IsNight() && !cnn.IsInTe(station) && !cnn.IsInterchange(station) ? CostCalculationConfigs.NightInOtherLinesCost : 0)
+            return (inputOption.JourneyTime.IsNight() && !cnn.IsInTe(station) && !cnn.IsInterchanged(station) ? CostCalculationConfigs.NightInOtherLinesCost : 0)
                    + _inner.GetCost(inputOption, cnn, station);
         }
     }

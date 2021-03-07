@@ -9,24 +9,23 @@ namespace Shortest_Path.Models
         public decimal Cost { get; set; }
         public Station ConnectedStation { get; set; }
 
-        public List<string> CommonStations(Station station)
+        private List<string> CommonStations(Station station)
         {
             return ConnectedStation.Lines.Intersect(station.Lines).ToList();
         }
+        private List<string> AllStations(Station station)
+        {
+            return ConnectedStation.Lines.Union(station.Lines).ToList();
+        }
 
-        public bool IsInterchange(Station station)
+        public bool IsInterchanged(Station station)
         {
             return !CommonStations(station).Any();
         }
 
         public bool IsInNeOrNs(Station station)
         {
-            return CommonStations(station).Intersect(CostCalculationConfigs.NeNsLines).Any();
-        }
-
-        public List<string> AllStations(Station station)
-        {
-            return ConnectedStation.Lines.Union(station.Lines).ToList();
+            return AllStations(station).Intersect(CostCalculationConfigs.NeNsLines).Any();
         }
 
         public bool IsInDtTe(Station station)
