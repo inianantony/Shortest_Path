@@ -21,7 +21,7 @@ namespace ShortestPath.UnitTests.Models
         public void IsPeak_Returns_True_On_WeekDays_Between_PeakHours(int year, int month, int date, int hours, int minute, int second, bool expected)
         {
             var startTime = new DateTime(year, month, date, hours, minute, second);
-            Assert.AreEqual(expected, new JourneyTime(new Options { StartTime = startTime }).IsPeak());
+            Assert.AreEqual(expected, new JourneyTime(new InputOption { StartTime = startTime }).IsPeak());
         }
 
         //Night hours (10pm-6am on Mon-Sun)
@@ -32,7 +32,7 @@ namespace ShortestPath.UnitTests.Models
         public void IsNight_Returns_True_On_NightHours(int year, int month, int date, int hours, int minute, int second, bool expected)
         {
             var startTime = new DateTime(year, month, date, hours, minute, second);
-            Assert.AreEqual(expected, new JourneyTime(new Options { StartTime = startTime }).IsNight());
+            Assert.AreEqual(expected, new JourneyTime(new InputOption { StartTime = startTime }).IsNight());
         }
 
         //Non-Peak hours (all other times)
@@ -50,7 +50,7 @@ namespace ShortestPath.UnitTests.Models
         public void IsNonPeak_Returns_True_On_WeekDays_Between_PeakHours(int year, int month, int date, int hours, int minute, int second, bool expected)
         {
             var startTime = new DateTime(year, month, date, hours, minute, second);
-            Assert.AreEqual(expected, new JourneyTime(new Options { StartTime = startTime }).IsNonPeak());
+            Assert.AreEqual(expected, new JourneyTime(new InputOption { StartTime = startTime }).IsNonPeak());
         }
     }
 }

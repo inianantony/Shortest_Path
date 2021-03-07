@@ -31,7 +31,7 @@ namespace ShortestPath.UnitTests.Services
             Station endStation = It.IsAny<Station>();
             _algorithm.Setup(a => a.FillShortestPath(
                 It.IsAny<List<Station>>(),
-                It.IsAny<Options>())).Returns(new List<Station>
+                It.IsAny<InputOption>())).Returns(new List<Station>
             {
                 _kovanStation,
                 _sengkangStation
@@ -43,7 +43,7 @@ namespace ShortestPath.UnitTests.Services
         {
             _kovanStation.NearestToStart = _sengkangStation;
 
-            var direction = new DirectionService(_algorithm.Object, new Options
+            var direction = new DirectionService(_algorithm.Object, new InputOption
             {
                 Start = _sengkangStation.StationName,
                 End = _sengkangStation.StationName
@@ -61,7 +61,7 @@ namespace ShortestPath.UnitTests.Services
             _kovanStation.AddLine("NE");
             _sengkangStation.AddLine("NE");
 
-            var direction = new DirectionService(_algorithm.Object, new Options
+            var direction = new DirectionService(_algorithm.Object, new InputOption
             {
                 Start = _sengkangStation.StationName,
                 End = _kovanStation.StationName
@@ -90,7 +90,7 @@ namespace ShortestPath.UnitTests.Services
 
             Station startStation = It.IsAny<Station>();
             Station endStation = It.IsAny<Station>();
-            _algorithm.Setup(a => a.FillShortestPath(It.IsAny<List<Station>>(), It.IsAny<Options>()))
+            _algorithm.Setup(a => a.FillShortestPath(It.IsAny<List<Station>>(), It.IsAny<InputOption>()))
                 .Returns(new List<Station>
             {
                 _harborStation,
@@ -99,7 +99,7 @@ namespace ShortestPath.UnitTests.Services
                 _sengkangStation,
             });
 
-            var direction = new DirectionService(_algorithm.Object, new Options
+            var direction = new DirectionService(_algorithm.Object, new InputOption
             {
                 Start = _sengkangStation.StationName,
                 End = _harborStation.StationName

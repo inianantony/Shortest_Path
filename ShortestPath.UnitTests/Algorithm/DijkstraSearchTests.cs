@@ -39,7 +39,7 @@ namespace ShortestPath.UnitTests.Algorithm
                 _kovanStation
             };
             var dijkstraSearch = new DijkstraSearch();
-            var option = new Options { Start = _sengkangStation.StationName, End = _kovanStation.StationName };
+            var option = new InputOption { Start = _sengkangStation.StationName, End = _kovanStation.StationName };
             var path = dijkstraSearch.FillShortestPath(_stations, option);
 
             var expected = new List<Station>
@@ -71,7 +71,7 @@ namespace ShortestPath.UnitTests.Algorithm
                 _harborStation
             };
             var dijkstraSearch = new DijkstraSearch();
-            var option = new Options { Start = _sengkangStation.StationName, End = _harborStation.StationName };
+            var option = new InputOption { Start = _sengkangStation.StationName, End = _harborStation.StationName };
             var path = dijkstraSearch.FillShortestPath(_stations, option);
 
             var expected = new List<Station>
@@ -110,7 +110,7 @@ namespace ShortestPath.UnitTests.Algorithm
                 _harborStation
             };
             var dijkstraSearch = new DijkstraSearch();
-            var option = new Options { Start = _sengkangStation.StationName, End = _harborStation.StationName };
+            var option = new InputOption { Start = _sengkangStation.StationName, End = _harborStation.StationName };
             var path = dijkstraSearch.FillShortestPath(_stations, option);
 
             var expected = new List<Station>
@@ -150,7 +150,7 @@ namespace ShortestPath.UnitTests.Algorithm
                 _harborStation
             };
             var dijkstraSearch = new DijkstraSearch();
-            var option = new Options { Start = _sengkangStation.StationName, End = _harborStation.StationName };
+            var option = new InputOption { Start = _sengkangStation.StationName, End = _harborStation.StationName };
             var path = dijkstraSearch.FillShortestPath(_stations, option);
 
             var expected = new List<Station>
@@ -184,7 +184,7 @@ namespace ShortestPath.UnitTests.Algorithm
                 _kovanStation
             };
             var dijkstraSearch = new DijkstraSearch();
-            var option = new Options
+            var option = new InputOption
             {
                 Start = _sengkangStation.StationName,
                 End = _kovanStation.StationName,
@@ -219,7 +219,7 @@ namespace ShortestPath.UnitTests.Algorithm
                 _kovanStation
             };
             var dijkstraSearch = new DijkstraSearch();
-            var option = new Options
+            var option = new InputOption
             {
                 Start = _sengkangStation.StationName,
                 End = _kovanStation.StationName,
@@ -256,7 +256,7 @@ namespace ShortestPath.UnitTests.Algorithm
                 _kovanStation
             };
             var dijkstraSearch = new DijkstraSearch();
-            var option = new Options
+            var option = new InputOption
             {
                 Start = _sengkangStation.StationName,
                 End = _kovanStation.StationName,
@@ -311,7 +311,7 @@ namespace ShortestPath.UnitTests.Algorithm
                 _harborStation
             };
             var dijkstraSearch = new DijkstraSearch();
-            var option = new Options
+            var option = new InputOption
             {
                 Start = _sengkangStation.StationName,
                 End = _harborStation.StationName,
@@ -352,7 +352,7 @@ namespace ShortestPath.UnitTests.Algorithm
                 _kovanStation
             };
             var dijkstraSearch = new DijkstraSearch();
-            var option = new Options
+            var option = new InputOption
             {
                 Start = _sengkangStation.StationName,
                 End = _kovanStation.StationName,
@@ -387,7 +387,7 @@ namespace ShortestPath.UnitTests.Algorithm
                 _kovanStation
             };
             var dijkstraSearch = new DijkstraSearch();
-            var option = new Options
+            var option = new InputOption
             {
                 Start = _sengkangStation.StationName,
                 End = _kovanStation.StationName,
@@ -424,7 +424,7 @@ namespace ShortestPath.UnitTests.Algorithm
                 _kovanStation
             };
             var dijkstraSearch = new DijkstraSearch();
-            var option = new Options
+            var option = new InputOption
             {
                 Start = _sengkangStation.StationName,
                 End = _kovanStation.StationName,
@@ -459,7 +459,7 @@ namespace ShortestPath.UnitTests.Algorithm
                 _kovanStation
             };
             var dijkstraSearch = new DijkstraSearch();
-            var option = new Options
+            var option = new InputOption
             {
                 Start = _sengkangStation.StationName,
                 End = _kovanStation.StationName,

@@ -5,6 +5,6 @@ namespace Shortest_Path.Algorithm
 {
     public interface ISearchAlgorithm
     {
-        List<Station> FillShortestPath(List<Station> stations, Options option);
+        List<Station> FillShortestPath(List<Station> stations, InputOption inputOption);
     }
 }

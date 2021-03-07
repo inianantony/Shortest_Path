@@ -11,8 +11,8 @@ namespace ShortestPath.UnitTests.Models
         [Test]
         public void GetOptions_Should_GetParsedOptions()
         {
-            var options = Options.GetInputOptions(new[] {"--start=Ubi", "--end=Kovan", @"--csvpath=c:\Station.csv" });
-            var expected = new Options
+            var options = InputOption.Get(new[] {"--start=Ubi", "--end=Kovan", @"--csvpath=c:\Station.csv" });
+            var expected = new InputOption
             {
                 Start = "Ubi",
                 End = "Kovan",
@@ -26,7 +26,7 @@ namespace ShortestPath.UnitTests.Models
         {
             var ex = Assert.Throws<Exception>(() =>
             {
-                Options.GetInputOptions(new[] { "--end=Kovan", @"--csvpath=c:\Station.csv" });
+                InputOption.Get(new[] { "--end=Kovan", @"--csvpath=c:\Station.csv" });
             });
             Assert.AreEqual("Invalid Start or destination! Program Terminates!", ex.Message);
         }
@@ -36,7 +36,7 @@ namespace ShortestPath.UnitTests.Models
         {
             var ex = Assert.Throws<Exception>(() =>
             {
-                Options.GetInputOptions(new[] { "--start=Ubi",  @"--csvpath=c:\Station.csv" });
+                InputOption.Get(new[] { "--start=Ubi",  @"--csvpath=c:\Station.csv" });
             });
             Assert.AreEqual("Invalid Start or destination! Program Terminates!", ex.Message);
         }
@@ -46,7 +46,7 @@ namespace ShortestPath.UnitTests.Models
         {
             var ex = Assert.Throws<Exception>(() =>
             {
-                Options.GetInputOptions(new[] { "--start=Ubi", "--end=Kovan" });
+                InputOption.Get(new[] { "--start=Ubi", "--end=Kovan" });
             });
             Assert.AreEqual("Invalid CSV Path! Program Terminates!", ex.Message);
         }
@@ -66,7 +66,7 @@ namespace ShortestPath.UnitTests.Models
             var map = new Map(rawRecords).LinkStations();
             var ex = Assert.Throws<Exception>(() =>
             {
-                new Options{Start = "UbiNew"}.ValidateStations(map);
+                new InputOption{Start = "UbiNew"}.ValidateStations(map);
             });
 
             Assert.AreEqual("Invalid Start! Program Terminates!", ex.Message);
@@ -87,7 +87,7 @@ namespace ShortestPath.UnitTests.Models
             var map = new Map(rawRecords).LinkStations();
             var ex = Assert.Throws<Exception>(() =>
             {
-                new Options { Start = "Sengkang", End = "UbiNew"}.ValidateStations(map);
+                new InputOption { Start = "Sengkang", End = "UbiNew"}.ValidateStations(map);
             });
 
             Assert.AreEqual("Invalid End! Program Terminates!", ex.Message);

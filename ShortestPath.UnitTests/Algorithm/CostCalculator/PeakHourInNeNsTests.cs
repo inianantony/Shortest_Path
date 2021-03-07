@@ -11,7 +11,7 @@ namespace ShortestPath.UnitTests.Algorithm.CostCalculator
         [TestCase("NS")]
         public void GetCost_Should_Return_12_Plus_Base_Edge_Cost(string line)
         {
-            var options = new Options { StartTime = new DateTime(2021, 3, 5, 20, 00, 0) };
+            var options = new InputOption { StartTime = new DateTime(2021, 3, 5, 20, 00, 0) };
             var connectedStation = new Station("A");
             connectedStation.AddLine(line);
 

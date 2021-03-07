@@ -10,7 +10,7 @@ namespace ShortestPath.UnitTests.Algorithm.CostCalculator
         public void GetCost_Should_Return_Edge_Cost()
         {
             var cost = 1;
-            Assert.AreEqual(cost, new BaseCostCalculator().GetCost(new Options(), new Edge { Cost = cost }, null));
+            Assert.AreEqual(cost, new BaseCostCalculator().GetCost(new InputOption(), new Edge { Cost = cost }, null));
         }
     }
 }

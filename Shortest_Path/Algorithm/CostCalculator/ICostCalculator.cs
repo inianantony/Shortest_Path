@@ -4,6 +4,6 @@ namespace Shortest_Path.Algorithm.CostCalculator
 {
     public interface ICostCalculator
     {
-        decimal GetCost(Options option, Edge cnn, Station station);
+        decimal GetCost(InputOption inputOption, Edge cnn, Station station);
     }
 }

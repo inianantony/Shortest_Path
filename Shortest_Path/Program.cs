@@ -9,15 +9,12 @@ namespace Shortest_Path
 {
     public class Program
     {
-        private static IPrinter _printer;
-        private static IStationDataReader _reader;
+        public static IPrinter Printer = new ConsolePrinter();
+        public static IStationDataReader Reader = new CsvStationDataReader();
 
         public static void Main(string[] args)
         {
-            _printer = new ConsolePrinter();
-            _reader = new CsvStationDataReader();
-
-            var option = Options.GetInputOptions(args);
+            var option = InputOption.Get(args);
 
             var rawRecords = ReadRawStationData(option);
 
@@ -30,16 +27,10 @@ namespace Shortest_Path
             PrintTheJourney(routeInfo);
         }
 
-        private static RouteInfo GetRoute(Map map, Options option)
+        private static RouteInfo GetRoute(Map map, InputOption inputOption)
         {
             ISearchAlgorithm algorithm = new DijkstraSearch();
-            var start = option.StartStation;
-            var end = option.EndStation;
-            var directionService = new DirectionService(algorithm, new Options
-            {
-                Start = start.StationName,
-                End = end.StationName
-            });
+            var directionService = new DirectionService(algorithm, inputOption);
             return directionService.PrepareRouteInfoFrom(map);
         }
 
@@ -49,14 +40,15 @@ namespace Shortest_Path
             return map;
         }
 
-        private static List<RawStationData> ReadRawStationData(Options options)
+        private static List<RawStationData> ReadRawStationData(InputOption inputOption)
         {
-            return _reader.GetRawStationRecords(options.CsvPath);
+            return Reader.GetRawStationRecords(inputOption.CsvPath);
         }
 
         private static void PrintTheJourney(RouteInfo routeInfo)
         {
-            _printer.With(routeInfo).DisplayRoutes();
+            var printer = Printer.With(routeInfo);
+            printer.DisplayRoutes();
         }
     }
 }

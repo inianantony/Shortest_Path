@@ -3,7 +3,7 @@ using CommandLine;
 
 namespace Shortest_Path.Models
 {
-    public class Options
+    public class InputOption
     {
         [Option('s', "start", Required = false, HelpText = "Enter the start")]
         public string Start { get; set; }
@@ -14,21 +14,25 @@ namespace Shortest_Path.Models
         [Option('c', "csvpath", Required = false, HelpText = "Enter the csv path")]
         public string CsvPath { get; set; }
 
-        public Station StartStation => new Station(Start);
-        public Station EndStation => new Station(End);
+        [Option('t', "starttime", Required = false, HelpText = "Enter the start time")]
         public DateTime StartTime { get; set; }
 
-        public Options()
+
+        public Station StartStation => new Station(Start);
+
+        public Station EndStation => new Station(End);
+
+        public InputOption()
         {
             JourneyTime = new JourneyTime(this);
         }
 
         public JourneyTime JourneyTime;
 
-        public static Options GetInputOptions(string[] args)
+        public static InputOption Get(string[] args)
         {
-            var options = new Options();
-            Parser.Default.ParseArguments<Options>(args).WithParsed(o => options = o);
+            var options = new InputOption();
+            Parser.Default.ParseArguments<InputOption>(args).WithParsed(o => options = o);
             options.Validate();
             return options;
         }

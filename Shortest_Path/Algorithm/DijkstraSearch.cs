@@ -7,10 +7,10 @@ namespace Shortest_Path.Algorithm
 {
     public class DijkstraSearch : ISearchAlgorithm
     {
-        public List<Station> FillShortestPath(List<Station> stations, Options option)
+        public List<Station> FillShortestPath(List<Station> stations, InputOption inputOption)
         {
-            var start = stations.First(a => a.IsSameAs(option.StartStation));
-            var end = stations.First(a => a.IsSameAs(option.EndStation));
+            var start = stations.First(a => a.IsSameAs(inputOption.StartStation));
+            var end = stations.First(a => a.IsSameAs(inputOption.EndStation));
             start.MinimumCost = 0;
             var priorityQueue = new List<Station> { start };
             do
@@ -23,10 +23,10 @@ namespace Shortest_Path.Algorithm
                     var connectedStation = cnn.ConnectedStation;
                     if (connectedStation.Visited)
                         continue;
-                    if (IsLineClosed(option, cnn, station))
+                    if (IsLineClosed(inputOption, cnn, station))
                         continue;
 
-                    var eachStationCost = EachStationCost(option, cnn, station);
+                    var eachStationCost = EachStationCost(inputOption, cnn, station);
 
                     if (connectedStation.MinimumCost == null || station.MinimumCost + eachStationCost < connectedStation.MinimumCost)
                     {
@@ -44,7 +44,7 @@ namespace Shortest_Path.Algorithm
             return stations;
         }
 
-        private static decimal EachStationCost(Options option, Edge cnn, Station station)
+        private static decimal EachStationCost(InputOption inputOption, Edge cnn, Station station)
         {
             var costCalculator = new DisabledJourneyTime(
                 new InterchangingAtNonPeak(
@@ -57,16 +57,17 @@ namespace Shortest_Path.Algorithm
                                             new NonPeakInAllLines(
                                                 new NonPeakInDtTe(
                                                     new BaseCostCalculator()))))))))));
-            return costCalculator.GetCost(option, cnn, station);
+            return costCalculator.GetCost(inputOption, cnn, station);
         }
-        private static bool IsLineClosed(Options option, Edge cnn, Station station)
+        private static bool IsLineClosed(InputOption inputOption, Edge cnn, Station station)
         {
-            if (option.JourneyTime.IsDisabled()) return false;
+            if (inputOption.JourneyTime.IsDisabled()) return false;
 
             var getLies = cnn.ConnectedStation.Lines.Intersect(station.Lines).ToList();
-            var isInDtCgCe = getLies.Intersect(new List<string> { "DT", "CG", "CE" }).Any();
-            var isNight = option.JourneyTime.IsNight();
-            var onlyDtCgCeOptionAvailable = cnn.ConnectedStation.Lines.Count == 1 && cnn.ConnectedStation.Lines.Intersect(new List<string> { "DT", "CG", "CE" }).Any();
+            var closedLines = new List<string> { "DT", "CG", "CE" };
+            var isInDtCgCe = getLies.Intersect(closedLines).Any();
+            var isNight = inputOption.JourneyTime.IsNight();
+            var onlyDtCgCeOptionAvailable = cnn.ConnectedStation.Lines.Count == 1 && cnn.ConnectedStation.Lines.Intersect(closedLines).Any();
 
             return isNight && (isInDtCgCe || onlyDtCgCeOptionAvailable);
         }

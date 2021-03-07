@@ -30,7 +30,7 @@ namespace ShortestPath.UnitTests
             var end = new Station("Bishan");
 
             ISearchAlgorithm algorithm = new DijkstraSearch();
-            var directionService = new DirectionService(algorithm, new Options
+            var directionService = new DirectionService(algorithm, new InputOption
             {
                 Start = start.StationName,
                 End = end.StationName
@@ -63,7 +63,7 @@ namespace ShortestPath.UnitTests
             var end = new Station("Bishan");
 
             ISearchAlgorithm algorithm = new DijkstraSearch();
-            var directionService = new DirectionService(algorithm, new Options
+            var directionService = new DirectionService(algorithm, new InputOption
             {
                 Start = start.StationName,
                 End = end.StationName,
@@ -101,7 +101,7 @@ namespace ShortestPath.UnitTests
             var end = new Station("SengKang");
 
             ISearchAlgorithm algorithm = new DijkstraSearch();
-            var directionService = new DirectionService(algorithm, new Options
+            var directionService = new DirectionService(algorithm, new InputOption
             {
                 Start = start.StationName,
                 End = end.StationName,
@@ -142,7 +142,7 @@ namespace ShortestPath.UnitTests
             var end = new Station("SengKang");
 
             ISearchAlgorithm algorithm = new DijkstraSearch();
-            var directionService = new DirectionService(algorithm, new Options
+            var directionService = new DirectionService(algorithm, new InputOption
             {
                 Start = start.StationName,
                 End = end.StationName,
