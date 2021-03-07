@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Shortest_Path.Models;
 
 namespace Shortest_Path.Printer
@@ -35,6 +36,7 @@ namespace Shortest_Path.Printer
 
         public void DisplayRoutes()
         {
+
             PrintJourneyTitle();
             PrintStations();
             PrintRoute();

@@ -71,9 +71,9 @@ namespace ShortestPath.UnitTests
             });
             var routeInfo = directionService.PrepareRouteInfoFrom(map);
 
-            Assert.IsTrue(routeInfo.JourneyTitle.Contains(start.StationName), $"Was : {start.StationName}");
-            Assert.IsNotEmpty(routeInfo.Route);
-            Assert.IsTrue(routeInfo.StationsTraveled.Contains("1"), $"Was : {routeInfo.StationsTraveled}");
+            Assert.IsTrue(routeInfo.JourneyTitle.Contains("\"Not\" possible"), $"Was : {routeInfo.JourneyTitle}");
+            Assert.IsEmpty(routeInfo.Route);
+            Assert.IsEmpty(routeInfo.StationsTraveled);
             Assert.IsEmpty(routeInfo.Journey);
         }
 
@@ -109,9 +109,9 @@ namespace ShortestPath.UnitTests
             });
             var routeInfo = directionService.PrepareRouteInfoFrom(map);
 
-            Assert.IsTrue(routeInfo.JourneyTitle.Contains(start.StationName), $"Was : {start.StationName}");
-            Assert.IsNotEmpty(routeInfo.Route);
-            Assert.IsTrue(routeInfo.StationsTraveled.Contains("1"), $"Was : {routeInfo.StationsTraveled}");
+            Assert.IsTrue(routeInfo.JourneyTitle.Contains("\"Not\" possible"), $"Was : {routeInfo.JourneyTitle}");
+            Assert.IsEmpty(routeInfo.Route);
+            Assert.IsEmpty(routeInfo.StationsTraveled);
             Assert.IsEmpty(routeInfo.Journey);
         }
 

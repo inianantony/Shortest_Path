@@ -48,6 +48,14 @@ namespace ShortestPath.UnitTests.Models
         }
 
         [Test]
+        public void NotPossible_Journey_Shows_Start_And_End_With_Not_Possible()
+        {
+            _stations = new List<Station>();
+            var routeInfo = new RouteInfo(_stations, _sengkangStation, _kovanStation);
+            Assert.AreEqual($"Travel from {_sengkangStation.StationName} to {_kovanStation.StationName} is \"Not\" possible", routeInfo.JourneyTitle);
+        }
+
+        [Test]
         public void StationsTraveled_Shows_Hop_Count()
         {
             var routeInfo = new RouteInfo(_stations, _sengkangStation, _kovanStation);
@@ -55,10 +63,26 @@ namespace ShortestPath.UnitTests.Models
         }
 
         [Test]
+        public void StationsTraveled_Is_Not_Shown_For_Impossible_Journey()
+        {
+            _stations = new List<Station>();
+            var routeInfo = new RouteInfo(_stations, _sengkangStation, _kovanStation);
+            Assert.AreEqual(string.Empty, routeInfo.StationsTraveled);
+        }
+
+        [Test]
         public void Route_Shows_StationCodes_InOneLine()
         {
             var routeInfo = new RouteInfo(_stations, _sengkangStation, _kovanStation);
             Assert.AreEqual("Route : ('NE1', 'NE2')", routeInfo.Route);
+        }
+
+        [Test]
+        public void No_Route_Is_Shown_For_Impossible_Journey()
+        {
+            _stations = new List<Station>();
+            var routeInfo = new RouteInfo(_stations, _sengkangStation, _kovanStation);
+            Assert.AreEqual(string.Empty, routeInfo.Route);
         }
 
         [Test]

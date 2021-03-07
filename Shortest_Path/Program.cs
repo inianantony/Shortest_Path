@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Shortest_Path.Algorithm;
 using Shortest_Path.Models;
 using Shortest_Path.Printer;
@@ -47,8 +48,7 @@ namespace Shortest_Path
 
         private static void PrintTheJourney(RouteInfo routeInfo)
         {
-            var printer = Printer.With(routeInfo);
-            printer.DisplayRoutes();
+            Printer.With(routeInfo).DisplayRoutes();
         }
     }
 }

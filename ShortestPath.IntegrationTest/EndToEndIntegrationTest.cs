@@ -48,5 +48,19 @@ namespace ShortestPath.IntegrationTest
             Program.Main(new[] { $"--start={start}", $"--end={end}", "--csvpath=../../../StationMap.csv", "--starttime=2021-03-05T23:00" });
             Assert.AreEqual("Route : ('EW12', 'EW13', 'NS25', 'NS24', 'NE6', 'NE7')", routeInfo.Route);
         }
+
+        [Test]
+        public void Journey_IsNot_Possible_On_DT_Line_Station()
+        {
+            var start = "Bugis";
+            var end = "Mattar";
+            var printer = new Mock<IPrinter>();
+            printer.Setup(a => a.DisplayRoutes());
+            RouteInfo routeInfo = null;
+            printer.Setup(a => a.With(It.IsAny<RouteInfo>())).Callback<RouteInfo>(r => routeInfo = r).Returns(printer.Object);
+            Program.Printer = printer.Object;
+            Program.Main(new[] { $"--start={start}", $"--end={end}", "--csvpath=../../../StationMap.csv", "--starttime=2021-03-05T23:00" });
+            Assert.AreEqual("Travel from Bugis to Mattar is \"Not\" possible", routeInfo.JourneyTitle);
+        }
     }
 }

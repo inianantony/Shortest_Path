@@ -8,9 +8,20 @@ namespace Shortest_Path.Models
         private readonly List<Station> _shortestPath;
         private readonly Station _start;
         private readonly Station _end;
+        private bool _notEnoughRoute;
 
-        public string JourneyTitle => $"Travel from {_start.StationName} to {_end.StationName}";
-        public string StationsTraveled => $"Stations traveled: {_shortestPath.Count}";
+        public RouteInfo(List<Station> shortestPath, Station start, Station end)
+        {
+            _shortestPath = shortestPath;
+            _start = start;
+            _end = end;
+        }
+
+        private bool NotEnoughRoute => _shortestPath.Count < 2;
+
+        public string JourneyTitle => $"Travel from {_start.StationName} to {_end.StationName}{(NotEnoughRoute ? " is \"Not\" possible" : string.Empty)}";
+
+        public string StationsTraveled => NotEnoughRoute ? string.Empty : $"Stations traveled: {_shortestPath.Count}";
 
         public string Route
         {
@@ -40,8 +51,9 @@ namespace Shortest_Path.Models
 
                     preIntersectStationCode = getIntersectingStationCode;
                 }
-
-                return $"Route : ('{string.Join("', '", routes) }')";
+                if (routes.Any())
+                    return $"Route : ('{string.Join("', '", routes) }')";
+                return string.Empty;
             }
         }
 
@@ -68,13 +80,5 @@ namespace Shortest_Path.Models
                 return routes;
             }
         }
-
-        public RouteInfo(List<Station> shortestPath, Station start, Station end)
-        {
-            _shortestPath = shortestPath;
-            _start = start;
-            _end = end;
-        }
-
     }
 }
