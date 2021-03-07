@@ -13,14 +13,15 @@ namespace Shortest_Path.Algorithm.CostCalculator
             _inner = inner;
         }
 
-        public double GetCost(Options option, Edge cnn, Station station)
+        public decimal GetCost(Options option, Edge cnn, Station station)
         {
             var commonStations = cnn.ConnectedStation.Lines.Intersect(station.Lines).ToList();
             var getLies = cnn.ConnectedStation.Lines.Union(station.Lines).ToList();
             var isInDtTe = getLies.Intersect(new List<string> { "DT", "TE" }).Any();
             var isNight = option.JourneyTime.IsNight();
             var isNonPeak = option.JourneyTime.IsNonPeak();
-            return (isNonPeak && !isNight && isInDtTe && !option.JourneyTime.IsDisabled() ? 8 : 0) + _inner.GetCost(option, cnn, station);
+            var interchange = !commonStations.Any();
+            return (isNonPeak && !isNight && isInDtTe && !interchange ? 8 : 0) + _inner.GetCost(option, cnn, station);
         }
     }
 }

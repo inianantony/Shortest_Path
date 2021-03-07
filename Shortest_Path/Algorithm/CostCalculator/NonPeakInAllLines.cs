@@ -13,7 +13,7 @@ namespace Shortest_Path.Algorithm.CostCalculator
             _inner = inner;
         }
 
-        public double GetCost(Options option, Edge cnn, Station station)
+        public decimal GetCost(Options option, Edge cnn, Station station)
         {
             var commonStations = cnn.ConnectedStation.Lines.Intersect(station.Lines).ToList();
             var getLies = cnn.ConnectedStation.Lines.Union(station.Lines).ToList();
@@ -21,7 +21,7 @@ namespace Shortest_Path.Algorithm.CostCalculator
             var isNight = option.JourneyTime.IsNight();
             var isNonPeak = option.JourneyTime.IsNonPeak();
             var interchange = !commonStations.Any();
-            return (isNonPeak && !interchange && !isNight && !isInDtTe && !option.JourneyTime.IsDisabled() ? 10 : 0) + _inner.GetCost(option, cnn, station);
+            return (isNonPeak && !interchange && !isNight && !isInDtTe ? 10 : 0) + _inner.GetCost(option, cnn, station);
         }
     }
 }

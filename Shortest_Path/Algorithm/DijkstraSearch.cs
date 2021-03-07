@@ -1,8 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Shortest_Path.Algorithm.CostCalculator;
 using Shortest_Path.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Shortest_Path.Algorithm
 {
@@ -45,17 +44,19 @@ namespace Shortest_Path.Algorithm
             return stations;
         }
 
-        private static double EachStationCost(Options option, Edge cnn, Station station)
+        private static decimal EachStationCost(Options option, Edge cnn, Station station)
         {
-            var costCalculator = new InterchangingAtNonPeak(
-                new InterchangingAtNight(
-                    new InterchangingAtPeakHour(
-                        new NightInTe(
-                            new PeakHourInNeNs(
-                                new PeakHourInOtherLines(
-                                    new NonPeakInAllLines(
-                                        new NonPeakInDtTe(
-                                            new BaseCostCalculator()))))))));
+            var costCalculator = new DisabledJourneyTime(
+                new InterchangingAtNonPeak(
+                    new InterchangingAtNight(
+                        new InterchangingAtPeakHour(
+                            new NightInTe(
+                                new NightInOtherLines(
+                                    new PeakHourInNeNs(
+                                        new PeakHourInOtherLines(
+                                            new NonPeakInAllLines(
+                                                new NonPeakInDtTe(
+                                                    new BaseCostCalculator()))))))))));
             return costCalculator.GetCost(option, cnn, station);
         }
         private static bool IsLineClosed(Options option, Edge cnn, Station station)
@@ -65,9 +66,9 @@ namespace Shortest_Path.Algorithm
             var getLies = cnn.ConnectedStation.Lines.Intersect(station.Lines).ToList();
             var isInDtCgCe = getLies.Intersect(new List<string> { "DT", "CG", "CE" }).Any();
             var isNight = option.JourneyTime.IsNight();
-            var onlyDtCgCeAvailable = cnn.ConnectedStation.Lines.Count ==1 && cnn.ConnectedStation.Lines.Intersect(new List<string> { "DT", "CG", "CE" }).Any();
+            var onlyDtCgCeOptionAvailable = cnn.ConnectedStation.Lines.Count == 1 && cnn.ConnectedStation.Lines.Intersect(new List<string> { "DT", "CG", "CE" }).Any();
 
-            return isNight && (isInDtCgCe || onlyDtCgCeAvailable);
+            return isNight && (isInDtCgCe || onlyDtCgCeOptionAvailable);
         }
     }
 }

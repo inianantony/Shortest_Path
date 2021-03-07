@@ -13,6 +13,8 @@ namespace ShortestPath.UnitTests.Algorithm
         private Station _kovanStation;
         private Station _harborStation;
         private Station _bishanStation;
+        private Station _ubiStation;
+        private Station _tuasStation;
         private List<Station> _stations;
 
         [SetUp]
@@ -22,6 +24,8 @@ namespace ShortestPath.UnitTests.Algorithm
             _kovanStation = new Station("Kovan");
             _harborStation = new Station("Harbor");
             _bishanStation = new Station("Bishan");
+            _ubiStation = new Station("Ubi");
+            _tuasStation = new Station("Tuas");
         }
 
         [Test]
@@ -135,8 +139,8 @@ namespace ShortestPath.UnitTests.Algorithm
 
             _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
             _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1, Length = 1 });
-            _kovanStation.Connections.Add(new Edge { ConnectedStation = _harborStation, Cost = 0.5, Length = 1 });
-            _harborStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 0.5, Length = 1 });
+            _kovanStation.Connections.Add(new Edge { ConnectedStation = _harborStation, Cost = 0.5m, Length = 1 });
+            _harborStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 0.5m, Length = 1 });
 
             _stations = new List<Station>
             {
@@ -151,7 +155,7 @@ namespace ShortestPath.UnitTests.Algorithm
 
             var expected = new List<Station>
             {
-                new Station("Harbor") {NearestToStart = _kovanStation, MinimumCost = 1.5},
+                new Station("Harbor") {NearestToStart = _kovanStation, MinimumCost = 1.5m},
                 new Station("Kovan") {NearestToStart = _sengkangStation, MinimumCost = 1},
                 new Station("Bishan") {NearestToStart = _sengkangStation, MinimumCost = 1},
                 new Station("Sengkang") {NearestToStart = null, MinimumCost = 0},
@@ -277,22 +281,40 @@ namespace ShortestPath.UnitTests.Algorithm
         [TestCase("DT")]
         [TestCase("CG")]
         [TestCase("CE")]
-        public void Scenario_User_Cant_InterChange_To_DT_CG_CE_Lines_At_Night(string line)
+        public void Scenario_User_Cant_Journey_When_DT_CG_CE_Comes_As_Interchanges_At_Night(string line)
         {
             _sengkangStation.AddLine("NE");
+            _bishanStation.AddLine("NE");
+            _bishanStation.AddLine(line);
             _kovanStation.AddLine(line);
-            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
-            _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1, Length = 1 });
+            _tuasStation.AddLine(line);
+            _tuasStation.AddLine("CC");
+            _ubiStation.AddLine("CC");
+            _harborStation.AddLine("CC");
+            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _bishanStation, Cost = 1, Length = 1 });
+            _bishanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1, Length = 1 });
+            _bishanStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
+            _kovanStation.Connections.Add(new Edge { ConnectedStation = _bishanStation, Cost = 1, Length = 1 });
+            _kovanStation.Connections.Add(new Edge { ConnectedStation = _tuasStation, Cost = 1, Length = 1 });
+            _tuasStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
+            _tuasStation.Connections.Add(new Edge { ConnectedStation = _ubiStation, Cost = 1, Length = 1 });
+            _ubiStation.Connections.Add(new Edge { ConnectedStation = _tuasStation, Cost = 1, Length = 1 });
+            _ubiStation.Connections.Add(new Edge { ConnectedStation = _harborStation, Cost = 1, Length = 1 });
+            _harborStation.Connections.Add(new Edge { ConnectedStation = _ubiStation, Cost = 1, Length = 1 });
             _stations = new List<Station>
             {
                 _sengkangStation,
-                _kovanStation
+                _bishanStation,
+                _kovanStation,
+                _tuasStation,
+                _ubiStation,
+                _harborStation
             };
             var dijkstraSearch = new DijkstraSearch();
             var option = new Options
             {
                 Start = _sengkangStation.StationName,
-                End = _kovanStation.StationName,
+                End = _harborStation.StationName,
                 StartTime = new DateTime(2019, 01, 31, 22, 00, 00)
             };
             var path = dijkstraSearch.FillShortestPath(_stations, option);
@@ -300,15 +322,20 @@ namespace ShortestPath.UnitTests.Algorithm
             var expected = new List<Station>
             {
                 new Station("Sengkang") {NearestToStart = null, MinimumCost = 0},
+                new Station("Bishan") {NearestToStart = _sengkangStation, MinimumCost = 11},
                 new Station("Kovan") {NearestToStart = null, MinimumCost = null},
+                new Station("Tuas") {NearestToStart = null, MinimumCost = null},
+                new Station("Ubi") {NearestToStart = null, MinimumCost = null},
+                new Station("Harbor") {NearestToStart = null, MinimumCost = null},
             };
 
             path.Should().NotBeEmpty()
-                .And.HaveCount(2)
+                .And.HaveCount(6)
                 .And.BeEquivalentTo(expected, options => options
                     .Including(o => o.StationName)
                     .Including(o => o.MinimumCost)
-                    .Including(a => a.NearestToStart));
+                    .Including(a => a.NearestToStart)
+                );
         }
 
         [TestCase("TE", 9)]

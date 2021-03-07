@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using FluentAssertions;
 using NUnit.Framework;
 using Shortest_Path.Models;
@@ -48,6 +49,48 @@ namespace ShortestPath.UnitTests.Models
                 Options.GetInputOptions(new[] { "--start=Ubi", "--end=Kovan" });
             });
             Assert.AreEqual("Invalid CSV Path! Program Terminates!", ex.Message);
+        }
+
+        [Test]
+        public void ValidateStations_ShouldThrowException_If_Start_Station_Is_Not_In_Map()
+        {
+            var sengkang = "Sengkang";
+            var kovan = "Kovan";
+            var rawRecords = new List<RawStationData>
+            {
+                new RawStationData {StationCode = "NE1", StationName = sengkang, OpeningDate = string.Empty},
+                new RawStationData {StationCode = "NE2", StationName = kovan, OpeningDate = string.Empty},
+            };
+
+            //Act
+            var map = new Map(rawRecords).LinkStations();
+            var ex = Assert.Throws<Exception>(() =>
+            {
+                new Options{Start = "UbiNew"}.ValidateStations(map);
+            });
+
+            Assert.AreEqual("Invalid Start! Program Terminates!", ex.Message);
+        }
+
+        [Test]
+        public void ValidateStations_ShouldThrowException_If_End_Station_Is_Not_In_Map()
+        {
+            var sengkang = "Sengkang";
+            var kovan = "Kovan";
+            var rawRecords = new List<RawStationData>
+            {
+                new RawStationData {StationCode = "NE1", StationName = sengkang, OpeningDate = string.Empty},
+                new RawStationData {StationCode = "NE2", StationName = kovan, OpeningDate = string.Empty},
+            };
+
+            //Act
+            var map = new Map(rawRecords).LinkStations();
+            var ex = Assert.Throws<Exception>(() =>
+            {
+                new Options { Start = "Sengkang", End = "UbiNew"}.ValidateStations(map);
+            });
+
+            Assert.AreEqual("Invalid End! Program Terminates!", ex.Message);
         }
     }
 }
