@@ -2,7 +2,7 @@
   "profiles": {
     "Shortest_Path": {
       "commandName": "Project",
-      "commandLineArgs": "--start=\"Marina Bay\" --end=\"Hillview\" --csvpath=../../../StationMap.csv"
+      "commandLineArgs": "--start=\"Marina Bay\" --end=\"Kovan\" --csvpath=../../../StationMap.csv --starttime=2021-03-05T23:00"
     }
   }
 }
