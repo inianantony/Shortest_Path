@@ -59,3 +59,4 @@
 ## Future Changes
 
 - Refactor the unit tests to improve readability and maintenance
+- Adapt the API output to the examples.md file
