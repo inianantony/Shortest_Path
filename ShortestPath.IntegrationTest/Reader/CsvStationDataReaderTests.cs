@@ -8,8 +8,8 @@ namespace ShortestPath.IntegrationTest.Reader
         [Test]
         public void GetRawStationRecords_Able_To_Read_StationMap_Csv()
         {
-            var reader = new CsvStationDataReader(@"StationMap.csv");
-            var stations = reader.GetRawStationRecords();
+            var reader = new CsvStationDataReader();
+            var stations = reader.GetRawStationRecords(@"StationMap.csv");
 
             Assert.Greater(stations.Count, 1);
         }

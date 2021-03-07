@@ -10,16 +10,9 @@ namespace Shortest_Path.Reader
 {
     public class CsvStationDataReader : IStationDataReader
     {
-        private readonly string _filePath;
-
-        public CsvStationDataReader(string filePath)
+        public List<RawStationData> GetRawStationRecords(string filePath)
         {
-            _filePath = filePath;
-        }
-
-        public List<RawStationData> GetRawStationRecords()
-        {
-            using var reader = new StreamReader(_filePath);
+            using var reader = new StreamReader(filePath);
             using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
             csv.Context.RegisterClassMap<StationDataMap>();
             csv.Context.Configuration.Delimiter = ",";

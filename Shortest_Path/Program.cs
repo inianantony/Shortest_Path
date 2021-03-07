@@ -10,9 +10,12 @@ namespace Shortest_Path
     public class Program
     {
         private static IPrinter _printer;
+        private static IStationDataReader _reader;
+
         public static void Main(string[] args)
         {
             _printer = new ConsolePrinter();
+            _reader = new CsvStationDataReader();
 
             var option = Options.GetInputOptions(args);
 
@@ -30,8 +33,8 @@ namespace Shortest_Path
         private static RouteInfo GetRoute(Map map, Options option)
         {
             ISearchAlgorithm algorithm = new DijkstraSearch();
-            Station start = option.StartStation;
-            Station end = option.EndStation;
+            var start = option.StartStation;
+            var end = option.EndStation;
             var directionService = new DirectionService(algorithm, new Options
             {
                 Start = start.StationName,
@@ -48,8 +51,7 @@ namespace Shortest_Path
 
         private static List<RawStationData> ReadRawStationData(Options options)
         {
-            IStationDataReader reader = new CsvStationDataReader(options.CsvPath);
-            return reader.GetRawStationRecords();
+            return _reader.GetRawStationRecords(options.CsvPath);
         }
 
         private static void PrintTheJourney(RouteInfo routeInfo)
