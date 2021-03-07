@@ -8,7 +8,6 @@ namespace Shortest_Path.Models
         private readonly List<Station> _shortestPath;
         private readonly Station _start;
         private readonly Station _end;
-        private bool _notEnoughRoute;
 
         public RouteInfo(List<Station> shortestPath, Station start, Station end)
         {

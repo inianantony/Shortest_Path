@@ -27,8 +27,8 @@ namespace ShortestPath.UnitTests.Models
             //Assert
             var expectedConnection = new List<List<Edge>>
             {
-                new List<Edge> {new Edge {ConnectedStation = map.Stations.First(a=>a.IsSameAs(kovan)), Cost = 1, Length = 1}},
-                new List<Edge> {new Edge {ConnectedStation = map.Stations.First(a=>a.IsSameAs(sengkang)), Cost = 1, Length = 1}}
+                new List<Edge> {new Edge {ConnectedStation = map.Stations.First(a=>a.IsSameAs(kovan)), Cost = 1}},
+                new List<Edge> {new Edge {ConnectedStation = map.Stations.First(a=>a.IsSameAs(sengkang)), Cost = 1}}
             };
             var actualConnections = map.Stations.Select(a => a.Connections).ToList();
             actualConnections.Should().NotBeEmpty()

@@ -97,7 +97,7 @@ namespace ShortestPath.UnitTests.Models
             var connections = _sengkangStation.ConnectNearByStations(neLine).Connections;
             var expectedConnection = new List<Edge>
             {
-                new Edge {ConnectedStation = _kovanStation, Cost = 1, Length = 1}
+                new Edge {ConnectedStation = _kovanStation, Cost = 1}
             };
             expectedConnection.ToExpectedObject().ShouldMatch(connections);
         }
@@ -112,7 +112,7 @@ namespace ShortestPath.UnitTests.Models
             var connections = _kovanStation.ConnectNearByStations(neLine).Connections;
             var expectedConnection = new List<Edge>
             {
-                new Edge {ConnectedStation = _sengkangStation, Cost = 1, Length = 1}
+                new Edge {ConnectedStation = _sengkangStation, Cost = 1}
             };
             expectedConnection.ToExpectedObject().ShouldMatch(connections);
         }
@@ -127,8 +127,8 @@ namespace ShortestPath.UnitTests.Models
             var connections = _serangoonStation.ConnectNearByStations(neLine).Connections;
             var expectedConnection = new List<Edge>
             {
-                new Edge {ConnectedStation = _sengkangStation, Cost = 1, Length = 1},
-                new Edge {ConnectedStation = _kovanStation, Cost = 1, Length = 1}
+                new Edge {ConnectedStation = _sengkangStation, Cost = 1},
+                new Edge {ConnectedStation = _kovanStation, Cost = 1}
             };
             expectedConnection.ToExpectedObject().ShouldMatch(connections);
         }
@@ -144,9 +144,9 @@ namespace ShortestPath.UnitTests.Models
             var connections = _serangoonStation.ConnectNearByStations(mrtLines).Connections;
             var expectedConnection = new List<Edge>
             {
-                new Edge{ConnectedStation = _sengkangStation,Cost = 1,Length = 1},
-                new Edge{ConnectedStation = _kovanStation,Cost = 1,Length = 1},
-                new Edge{ConnectedStation = _bishanStation,Cost = 1,Length = 1},
+                new Edge{ConnectedStation = _sengkangStation,Cost = 1},
+                new Edge{ConnectedStation = _kovanStation,Cost = 1},
+                new Edge{ConnectedStation = _bishanStation,Cost = 1},
             };
             expectedConnection.ToExpectedObject().ShouldMatch(connections);
         }

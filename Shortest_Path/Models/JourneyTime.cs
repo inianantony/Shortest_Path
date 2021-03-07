@@ -39,5 +39,10 @@ namespace Shortest_Path.Models
         {
             return !IsPeak();
         }
+
+        public bool IsNonPeakBeforeNight()
+        {
+            return IsNonPeak() && !IsNight();
+        }
     }
 }

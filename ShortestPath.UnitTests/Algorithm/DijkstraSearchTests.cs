@@ -31,8 +31,8 @@ namespace ShortestPath.UnitTests.Algorithm
         [Test]
         public void Given_2_Stations_The_Begining_Station_Should_Be_The_Nearest_Station_For_End_Station()
         {
-            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
-            _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1, Length = 1 });
+            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1 });
+            _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1 });
             _stations = new List<Station>
             {
                 _sengkangStation,
@@ -59,10 +59,10 @@ namespace ShortestPath.UnitTests.Algorithm
         [Test]
         public void Given_3_Stations_We_Can_Trace_To_BeginingStation_FromEndStation()
         {
-            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
-            _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1, Length = 1 });
-            _kovanStation.Connections.Add(new Edge { ConnectedStation = _harborStation, Cost = 1, Length = 1 });
-            _harborStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
+            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1 });
+            _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1 });
+            _kovanStation.Connections.Add(new Edge { ConnectedStation = _harborStation, Cost = 1 });
+            _harborStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1 });
 
             _stations = new List<Station>
             {
@@ -92,15 +92,15 @@ namespace ShortestPath.UnitTests.Algorithm
         [Test]
         public void Scenario_4_Stations_Where_Start_And_End_Is_Same_Then_FirstRouteReached_WillBe_Returned()
         {
-            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _bishanStation, Cost = 1, Length = 1 });
-            _bishanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1, Length = 1 });
-            _bishanStation.Connections.Add(new Edge { ConnectedStation = _harborStation, Cost = 1, Length = 1 });
-            _harborStation.Connections.Add(new Edge { ConnectedStation = _bishanStation, Cost = 1, Length = 1 });
+            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _bishanStation, Cost = 1 });
+            _bishanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1 });
+            _bishanStation.Connections.Add(new Edge { ConnectedStation = _harborStation, Cost = 1 });
+            _harborStation.Connections.Add(new Edge { ConnectedStation = _bishanStation, Cost = 1 });
 
-            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
-            _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1, Length = 1 });
-            _kovanStation.Connections.Add(new Edge { ConnectedStation = _harborStation, Cost = 1, Length = 1 });
-            _harborStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
+            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1 });
+            _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1 });
+            _kovanStation.Connections.Add(new Edge { ConnectedStation = _harborStation, Cost = 1 });
+            _harborStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1 });
 
             _stations = new List<Station>
             {
@@ -132,15 +132,15 @@ namespace ShortestPath.UnitTests.Algorithm
         [Test]
         public void Scenario_4_Stations_Where_Start_And_End_Is_Same_Then_LowestCostRouteReached_WillBe_Returned()
         {
-            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _bishanStation, Cost = 1, Length = 1 });
-            _bishanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1, Length = 1 });
-            _bishanStation.Connections.Add(new Edge { ConnectedStation = _harborStation, Cost = 1, Length = 1 });
-            _harborStation.Connections.Add(new Edge { ConnectedStation = _bishanStation, Cost = 1, Length = 1 });
+            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _bishanStation, Cost = 1 });
+            _bishanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1 });
+            _bishanStation.Connections.Add(new Edge { ConnectedStation = _harborStation, Cost = 1 });
+            _harborStation.Connections.Add(new Edge { ConnectedStation = _bishanStation, Cost = 1 });
 
-            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
-            _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1, Length = 1 });
-            _kovanStation.Connections.Add(new Edge { ConnectedStation = _harborStation, Cost = 0.5m, Length = 1 });
-            _harborStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 0.5m, Length = 1 });
+            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1 });
+            _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1 });
+            _kovanStation.Connections.Add(new Edge { ConnectedStation = _harborStation, Cost = 0.5m });
+            _harborStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 0.5m });
 
             _stations = new List<Station>
             {
@@ -176,8 +176,8 @@ namespace ShortestPath.UnitTests.Algorithm
         {
             _sengkangStation.AddLine(line);
             _kovanStation.AddLine(line);
-            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
-            _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1, Length = 1 });
+            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1 });
+            _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1 });
             _stations = new List<Station>
             {
                 _sengkangStation,
@@ -211,8 +211,8 @@ namespace ShortestPath.UnitTests.Algorithm
         {
             _sengkangStation.AddLine("NE");
             _kovanStation.AddLine("CC");
-            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
-            _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1, Length = 1 });
+            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1 });
+            _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1 });
             _stations = new List<Station>
             {
                 _sengkangStation,
@@ -248,8 +248,8 @@ namespace ShortestPath.UnitTests.Algorithm
         {
             _sengkangStation.AddLine(line);
             _kovanStation.AddLine(line);
-            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
-            _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1, Length = 1 });
+            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1 });
+            _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1 });
             _stations = new List<Station>
             {
                 _sengkangStation,
@@ -291,16 +291,16 @@ namespace ShortestPath.UnitTests.Algorithm
             _tuasStation.AddLine("CC");
             _ubiStation.AddLine("CC");
             _harborStation.AddLine("CC");
-            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _bishanStation, Cost = 1, Length = 1 });
-            _bishanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1, Length = 1 });
-            _bishanStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
-            _kovanStation.Connections.Add(new Edge { ConnectedStation = _bishanStation, Cost = 1, Length = 1 });
-            _kovanStation.Connections.Add(new Edge { ConnectedStation = _tuasStation, Cost = 1, Length = 1 });
-            _tuasStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
-            _tuasStation.Connections.Add(new Edge { ConnectedStation = _ubiStation, Cost = 1, Length = 1 });
-            _ubiStation.Connections.Add(new Edge { ConnectedStation = _tuasStation, Cost = 1, Length = 1 });
-            _ubiStation.Connections.Add(new Edge { ConnectedStation = _harborStation, Cost = 1, Length = 1 });
-            _harborStation.Connections.Add(new Edge { ConnectedStation = _ubiStation, Cost = 1, Length = 1 });
+            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _bishanStation, Cost = 1 });
+            _bishanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1 });
+            _bishanStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1 });
+            _kovanStation.Connections.Add(new Edge { ConnectedStation = _bishanStation, Cost = 1 });
+            _kovanStation.Connections.Add(new Edge { ConnectedStation = _tuasStation, Cost = 1 });
+            _tuasStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1 });
+            _tuasStation.Connections.Add(new Edge { ConnectedStation = _ubiStation, Cost = 1 });
+            _ubiStation.Connections.Add(new Edge { ConnectedStation = _tuasStation, Cost = 1 });
+            _ubiStation.Connections.Add(new Edge { ConnectedStation = _harborStation, Cost = 1 });
+            _harborStation.Connections.Add(new Edge { ConnectedStation = _ubiStation, Cost = 1 });
             _stations = new List<Station>
             {
                 _sengkangStation,
@@ -344,8 +344,8 @@ namespace ShortestPath.UnitTests.Algorithm
         {
             _sengkangStation.AddLine(line);
             _kovanStation.AddLine(line);
-            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
-            _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1, Length = 1 });
+            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1 });
+            _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1 });
             _stations = new List<Station>
             {
                 _sengkangStation,
@@ -379,8 +379,8 @@ namespace ShortestPath.UnitTests.Algorithm
         {
             _sengkangStation.AddLine("NE");
             _kovanStation.AddLine("CC");
-            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
-            _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1, Length = 1 });
+            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1 });
+            _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1 });
             _stations = new List<Station>
             {
                 _sengkangStation,
@@ -416,8 +416,8 @@ namespace ShortestPath.UnitTests.Algorithm
         {
             _sengkangStation.AddLine(line);
             _kovanStation.AddLine(line);
-            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
-            _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1, Length = 1 });
+            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1 });
+            _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1 });
             _stations = new List<Station>
             {
                 _sengkangStation,
@@ -451,8 +451,8 @@ namespace ShortestPath.UnitTests.Algorithm
         {
             _sengkangStation.AddLine("NE");
             _kovanStation.AddLine("CC");
-            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1, Length = 1 });
-            _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1, Length = 1 });
+            _sengkangStation.Connections.Add(new Edge { ConnectedStation = _kovanStation, Cost = 1 });
+            _kovanStation.Connections.Add(new Edge { ConnectedStation = _sengkangStation, Cost = 1 });
             _stations = new List<Station>
             {
                 _sengkangStation,

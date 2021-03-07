@@ -1,4 +1,3 @@
-using System.Linq;
 using Shortest_Path.Models;
 
 namespace Shortest_Path.Algorithm.CostCalculator
@@ -14,10 +13,8 @@ namespace Shortest_Path.Algorithm.CostCalculator
 
         public decimal GetCost(InputOption inputOption, Edge cnn, Station station)
         {
-            var commonStations = cnn.ConnectedStation.Lines.Intersect(station.Lines).ToList();
-            var isPeakHour = inputOption.JourneyTime.IsPeak();
-            var interchange = !commonStations.Any();
-            return (interchange && isPeakHour ? 15 : 0) + _inner.GetCost(inputOption, cnn, station);
+            return (cnn.IsInterchange(station) && inputOption.JourneyTime.IsPeak() ? CostCalculationConfigs.InterchangingAtPeakHourCost : 0) 
+                   + _inner.GetCost(inputOption, cnn, station);
         }
     }
 }

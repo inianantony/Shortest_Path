@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Shortest_Path.Algorithm.CostCalculator;
 
 namespace Shortest_Path.Models
 {
@@ -48,7 +49,7 @@ namespace Shortest_Path.Models
                 nearbyStations.AddRange(GetNearbyStations(line));
             }
 
-            Connections = nearbyStations.Distinct().Select(a => new Edge { ConnectedStation = a, Cost = 1, Length = 1 }).ToList();
+            Connections = nearbyStations.Distinct().Select(a => new Edge { ConnectedStation = a, Cost = CostCalculationConfigs.BaseCost }).ToList();
 
             return this;
         }
