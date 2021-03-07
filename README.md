@@ -18,10 +18,12 @@
 
 ## Decision
 
+- Application is built using `.Net Core 5` `console app`
 - Application will return the shortest route only
 - Application will accept the start and end as standard input argument
 - Application will output the result as standard out
 - Shortest path is found using the concept taken from `Dijkstra` algorithm
+- Tests are split into `unit` test and `integration` tests, with more unit tests and little integration tests
 
 ### Architectural Decision
 
@@ -29,13 +31,31 @@
 - To adapt for finding shortest route using other algorithm, there is an interface in place to swap to any future algorithms
 - The code is driven using TDD
 - Duplication in test code is chosen to have better test readability
+- The container for running the application is only built if the `unit` and `integration` tests passes
 
-Libraries & Tools Used
+## Libraries & Tools Used
 
-Prerequisites
+| Tool Name | Description |
+|---------- | ----------- |
+|.Net Core 5 | Core framework of choice|
+|CsvHelper | To read CSV files|
+|CommandLineParser | To parse the input arguments|
+|ExpectedObjects| To assert the complex object in testing|
+|FluentAssertions| To assert complex objects and to continue the assertion |
+|Moq| Mock the dependency|
+|NUnit| Test runner|
 
-How to Run
+## Prerequisites for Ubuntu 16.04
 
-Future Changes
+- Relevant permissions to install and run docker images
+- Install `docker` by following [How To Install and Use Docker on Ubuntu 16.04](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04)
+- Running docker in `Ubuntu 16.04`
+- Internet connectivity to download images from docker hub
 
-Refactor the unit tests to improve readability and maintenance
+## How to Run
+
+- From the root of the directory run the dev.sh file using `sh dev.sh`
+
+## Future Changes
+
+- Refactor the unit tests to improve readability and maintenance
