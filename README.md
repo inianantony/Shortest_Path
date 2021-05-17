@@ -60,3 +60,13 @@
 
 - Refactor the unit tests to improve readability and maintenance
 - Adapt the API output to follow examples.md file
+
+## References
+
+- https://github.com/e-tinkers/mrt_map/blob/master/graph.py
+- https://github.com/ken-hu/hui-core-algorithm-dijkstra
+- https://www.programmersought.com/article/1843233717/
+- https://www.codeproject.com/Articles/1221034/Pathfinding-Algorithms-in-Csharp
+- https://joehonour.medium.com/a-guide-to-setting-up-a-net-core-project-using-docker-with-integrated-unit-and-component-tests-a326ca5a0284
+- https://docs.microsoft.com/en-us/dotnet/core/docker/build-container?tabs=windows
+- https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04
